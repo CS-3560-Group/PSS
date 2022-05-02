@@ -18,8 +18,10 @@ def main():
 	m.createTask()
 	m.deleteTask("test")
 	m.editTask("test")
-	m.readFile("schedule.json")
+	s = m.readFile("scheduleTester.json")
 	m.writeFile("schedule.json", schedule)
+
+	print(s) #add to string to Task
 
 
 if __name__ == '__main__':
