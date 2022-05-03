@@ -1,0 +1,20 @@
+[
+	{
+		"Name": "test",
+		"Type": "Transient",
+		"Date": "20220428",
+		"StartTime": "1100",
+		"Duration": "100",
+		"EndDate": "20220429",
+		"Frequency": "1"
+	},
+	{
+		"Name": "test",
+		"Type": "Transient",
+		"Date": "20220428",
+		"StartTime": "1100",
+		"Duration": "100",
+		"EndDate": "20220429",
+		"Frequency": "1"
+	}
+]
