@@ -10,7 +10,7 @@ import Model as m
 
 def main():
 	print('Welcome to PSS')
-	testTask = Task("test", "Transient", 1100, 100, 20220428, 20220429, 1)
+	testTask = Task("test", "Transient", 1100, 100, 20220428, None, None)
 	testTask2 = Task("test2", "Recurring", 1111, 111, 20220428, 20220429, 1)
 	schedule = []
 	schedule.append(testTask)
@@ -25,8 +25,8 @@ def main():
 	m.deleteTask("test")
 	m.editTask("test")
 	s = m.readFile("scheduleTester.json")
-	for x in s:
-		print(x)
+	# for x in schedule:
+	# 	print(x)
 	m.writeFile("out.json", schedule)
 
 

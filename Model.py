@@ -75,7 +75,7 @@ def readFile(fileName):
 
 def writeFile(fileName, schedule):
 	print('writeFile')
-	outjson = open('out.json', 'w')
+	outjson = open(fileName, 'w')
 	counter = 0
 
 	outjson.write('[\n')
@@ -97,7 +97,7 @@ def writeFile(fileName, schedule):
 			counter = counter +1
 		
 	else:
-		x = schedule[counter-1]
+		x = schedule[counter]
 		outjson.write('\t{\n')
 		outjson.write("\t\t\"Name\": \"" + Task.getName(x) + "\",\n")
 		outjson.write("\t\t\"Type\": \"" + Task.getType(x) + "\",\n")
@@ -113,3 +113,19 @@ def writeFile(fileName, schedule):
 	outjson.write('\n]')
 
 	outjson.close()
+
+def checkStartTime(time):
+	print("check startTime")
+	'''
+	0 (midnight) to 23.75 (11:45 pm)
+	15 minutes interval (0.25)
+	'''
+
+def checkDate(date):
+	print("check startDate or endDate")
+	'''
+	form YYYYMMDD
+	year any 4-digit number
+	month range from 01 to 12
+	day range from 01 to number of days in that month
+	'''
