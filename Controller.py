@@ -41,22 +41,20 @@ def main():
                 #Create Task
                 elif choice == "1":
                         #Prompt user for task details and then add to schedule
-                        schedule.append(m.newTask())
+                        schedule = m.addTask(m.newTask(), schedule)
 
                 #Edit Task
                 elif choice == "2":
                         #Prompt the user for the task to be modified
-                        prompt = input('temp text, get task to edit')
-
-                        #Prompt the user for task details to be modified
-                                #(can maybe re-use m.newTask() function
-                        pass
+                        badTask = m.findTask(schedule)
+                        schedule = m.editTask(badTask, schedule)
+                        
                 #Delete Task
                 elif choice == "3":
                         #Prompt the user for the task to be deleted
-                        prompt = input('temp text, get task to delete')                        
+                        badTask = m.findTask(schedule)                       
                         #Remove task from schedule
-                        pass
+                        m.deleteTask(badTask)
                 #View Task
                 elif choice == "4":
                         #Prompt the user for the task to be viewed
