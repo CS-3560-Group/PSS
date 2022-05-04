@@ -12,7 +12,7 @@ week(2), or month(3)
 
 
 def viewTask(schedule, opt):
-	print('viewTask')
+        print('viewTask')
 
 
 '''
@@ -22,4 +22,6 @@ def viewTask(schedule, opt):
 
 
 def viewSchedule(schedule):
-	print('viewSchedule')
+        print('viewSchedule')
+        for task in schedule:
+                print(task)

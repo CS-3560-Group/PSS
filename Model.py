@@ -6,9 +6,29 @@ from Task import Task
 '''
 @return Task
 '''
-def createTask():
-	print('createTask')
+def newTask():
+        #Prompt the user to ask for details about the task
+        name = input('What would you like to call your new task?\n')
+        taskType = input('Is this task Transient(1), Recurring(2), or an Anti-Task(3)?\n')
+        startTime = input('What time does this task begin? format(hours:minutes 24hr)\n')
+        duration = input('How long will this task take? format(days:hours:minutes)\n')
+        #If its a recurring task format the question a little differently
+        if (taskType == "2"):
+                date = input('What day does this task start on? format(mm/dd/yyyy)\n')
+        else:
+                date = input('What day does this task occur on? format(mm/dd/yyyy)\n')
 
+        #If its a recurring task need a date for when it stops recurring
+        if (taskType == "2"):
+                endDate = input()
+                freq = input('How often does this task recur? (daily, weekly, monthly)\n')
+        #Otherwise just set it as -1
+        else:
+                endDate = -1
+                freq = "once"
+                
+        #Plug in the details and return the created task
+        return Task(name, taskType, startTime, duration, date, endDate, freq)
 
 '''
 @param name, string of task name
@@ -35,6 +55,24 @@ def editTask(name):
 @return schedule, list of user's tasks
 @throws Exception
 '''
+
+
+'''
+@return Task
+'''
+def findTask():
+        #Request 
+        pass
+
+
+'''
+@param task, task to add to schedule
+@param schedule, schedule to add task too
+@return overlapped, True if no overlap False if there is overlap
+@throws Exception
+'''
+def checkOverlap(task, schedule):
+        pass
 
 
 def readFile(fileName):
@@ -75,7 +113,7 @@ def readFile(fileName):
 
 def writeFile(fileName, schedule):
 	print('writeFile')
-	outjson = open('out.json', 'w')
+	outjson = open(fileName, 'w')
 	counter = 0
 
 	outjson.write('[\n')
