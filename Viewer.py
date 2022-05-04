@@ -22,6 +22,8 @@ def viewTask(schedule, opt):
 
 
 def viewSchedule(schedule):
-        print('viewSchedule')
-        for task in schedule:
-                print(task)
+        if schedule:
+                for task in schedule:
+                        print(task)
+        else:
+                print("Schedule Empty.")

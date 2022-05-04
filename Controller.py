@@ -37,7 +37,7 @@ def main():
                 if choice == "0":
                         running = False
                         m.writeFile(saveFile, schedule)
-                        break;
+                        break
                 #Create Task
                 elif choice == "1":
                         #Prompt user for task details and then add to schedule
@@ -54,7 +54,7 @@ def main():
                         #Prompt the user for the task to be deleted
                         badTask = m.findTask(schedule)                       
                         #Remove task from schedule
-                        m.deleteTask(badTask)
+                        m.deleteTask(badTask, schedule)
                 #View Task
                 elif choice == "4":
                         #Prompt the user for the task to be viewed
@@ -62,28 +62,17 @@ def main():
                 #View Schedule
                 elif choice == "5":
                         v.viewSchedule(schedule)
+                #Save Changes
+                elif choice == "6":
+                        m.writeFile(saveFile, schedule)
+                        print("Saved.")
                 #Invalid choice
                 else:
                         print('Please choose a valid option.')
 
-        if debug:
-                testTask = Task("test", "Transient", 1100, 100, 20220428, 20220429, 1)
-                testTask2 = Task("test2", "Recurring", 1111, 111, 20220428, 20220429, 1)
-                schedule.append(testTask)
-                schedule.append(testTask2)
-                for x in schedule:
-                        print(x)
 
-                v.viewTask(schedule, 1)
-                v.viewSchedule(schedule)
-
-                m.createTask()
-                m.deleteTask("test")
-                m.editTask("test")
-                s = m.readFile("scheduleTester.json")
-                for x in s:
-                        print(x)
-                m.writeFile("out.json", schedule)
+                #testTask = Task("test", "Transient", 1100, 100, 20220428, 20220429, 1)
+                #testTask2 = Task("test2", "Recurring", 1111, 111, 20220428, 20220429, 1)
 
 
 def printMenu():
@@ -93,6 +82,7 @@ def printMenu():
         print('3. Delete Task')
         print('4. View Task')
         print('5. View Schedule')
+        print('6. Save Schedule')
         print('0. Exit Program')
         print()
 

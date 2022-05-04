@@ -1,29 +1,30 @@
 [
 	{
 		"Name": "1",
-		"Type": "1",
-		"Date": "1",
-		"StartTime": "1",
-		"Duration": "1",
-		"EndDate": "-1",
-		"Frequency": "once"
+		"Type": "2",
+		"Date": "5",
+		"StartTime": "3",
+		"Duration": "4",
+		"EndDate": "5",
+		"Frequency": "daily"
 	},
 	{
 		"Name": "test",
-		"Type": "Transient",
-		"Date": "20220428",
-		"StartTime": "1100",
-		"Duration": "100",
-		"EndDate": "20220429",
-		"Frequency": "1"
+		"Type": "1",
+		"Date": "01/01/2022",
+		"StartTime": "10:40",
+		"Duration": "00:01:15",
+		"EndDate": "-1",
+		"Frequency": "once"
 	},
 	{
-		"Name": "manual test with reasonable entries",
-		"Type": "1",
-		"Date": "05/20/2022",
-		"StartTime": "10:40",
-		"Duration": "0:1:30",
+		"Name": "anti",
+		"Type": "3",
+		"Date": "10/31/2022",
+		"StartTime": "20:45",
+		"Duration": "2:00:30",
 		"EndDate": "-1",
 		"Frequency": "once"
 	}
+
 ]
