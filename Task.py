@@ -15,19 +15,25 @@ class Task:
     @param freq, integer represents 1(daily), 7(weekly)
     '''
 
-    def __init__(self, name, type, startTime, duration, date, endDate, freq):
+    def __init__(self, name, taskType, startTime, duration, date, endDate, freq):
         # add checks for valid duration, dates, type, and overlap
         self.name = name
-        self.type = type
+        self.type = taskType
         self.startTime = startTime
         self.duration = duration
         self.date = date
         self.endDate = endDate
         self.freq = freq
 
+
+
+
+    #Function to convert Task object to string
     def __str__(self):
         return '\nTask: ' + self.name + ' starts at ' + str(self.startTime) + ' on ' + str(self.date)
 
+
+    #Getters
     def getName(self):
         return self.name
 
@@ -53,3 +59,31 @@ class Task:
 
     def getFrequency(self):
       return self.freq
+
+
+    #Setters
+    def setName(self, name):
+        self.name = name
+
+    def setType(self, taskType):
+       self.type = taskType
+
+
+    def setStartTime(self, startTime):
+      self.startTime = startTime
+
+
+    def setDuration(self, duration):
+      self.duration = duration
+
+
+    def setDate(self, date):
+      self.date = date
+
+
+    def setEndDate(self, endDate):
+      self.endDate = endDate
+
+
+    def setFrequency(self, freq):
+      self.freq = freq
