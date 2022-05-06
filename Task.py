@@ -13,24 +13,38 @@ class Task:
     @param date, integer in the form YYYYMMDD
     @param endDate, integer in the form YYYYMMDD
     @param freq, integer represents 1(daily), 7(weekly)
+    @param taskType, integer with Transient(1), Recurring(2), Anti(3)
     '''
 
-    def __init__(self, name, taskType, startTime, duration, date, endDate, freq):
+    def __init__(self, name, type, taskType, startTime, duration, date, endDate, freq):
         # add checks for valid duration, dates, type, and overlap
         self.name = name
-        self.type = taskType
+        self.type = type
         self.startTime = startTime
         self.duration = duration
         self.date = date
         self.endDate = endDate
         self.freq = freq
+        self.taskType = taskType
 
 
 
 
     #Function to convert Task object to string
     def __str__(self):
-        return '\nTask: ' + self.name + ' starts at ' + str(self.startTime) + ' on ' + str(self.date)
+        frequent = "daily" if self.freq == 1 else "weekly"
+        if self.taskType != 2:
+            return ('\nTask: ' + self.name + ' is a ' + self.type + ' task'+
+                '\n\tIt starts at ' + str(int(float(self.startTime))) + ':' + str(int(((float(self.startTime)*60)%60))) +
+                ' on ' + str(int(int(self.date)/10000)) + '/' + str(int((int(self.date) % 10000) / 100)) + '/'
+                + str((int(self.date) % 100)))
+        else:
+            return ('\nTask: ' + self.name + ' is a ' + self.type + ' task'+
+                    '\n\tIt starts at ' + str(int(float(self.startTime))) + ':' + str(int(((float(self.startTime)*60)%60))) +
+                    ' on ' + str(int(int(self.date)/10000)) + '/' + str(int((int(self.date) % 10000) / 100)) + '/'
+                    + str((int(self.date) % 100)) + ' and runs ' + frequent +
+                    '\n\tIt ends on ' + str(int(int(self.endDate) / 10000)) + '/'
+                   + str(int((int(self.endDate) % 10000) / 100)) + '/' + str((int(self.endDate)) % 100))
 
 
     #Getters
@@ -60,6 +74,9 @@ class Task:
     def getFrequency(self):
       return self.freq
 
+    def getTaskType(self):
+      return self.taskType
+
 
     #Setters
     def setName(self, name):
@@ -87,3 +104,6 @@ class Task:
 
     def setFrequency(self, freq):
       self.freq = freq
+
+    def setTaskType(self, taskType):
+      self.taskType = taskType

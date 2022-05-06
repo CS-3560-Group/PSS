@@ -47,7 +47,8 @@ def main():
                 elif choice == "2":
                         #Prompt the user for the task to be modified
                         badTask = m.findTask(schedule)
-                        schedule = m.editTask(badTask, schedule)
+                        if badTask != None:
+                                m.editTask(badTask)
                         
                 #Delete Task
                 elif choice == "3":

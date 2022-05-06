@@ -12,48 +12,44 @@ from Task import Task
 def newTask():
     # Prompt the user to ask for details about the task
     name = input('What would you like to call your new task?\n')
-    taskType = input(
-        'Is this task Transient(1), Recurring(2), or an Anti-Task(3)?\n')
-    startTime = input(
-        'What time does this task begin? format(hours:minutes 24hr)\n')
-    duration = input(
-        'How long will this task take? format(days:hours:minutes)\n')
+    type = input('Please enter the task type (Ex: Sleep)\n')
+    taskType = 0
+    while taskType == 0:
+        if (type == "Class" or type == "Study" or type == "Sleep"
+        or type == "Exercise" or type == "Work" or type == "Meal"):
+            taskType = 2
+        elif type == "Visit" or type == "Shopping" or type == "Appointment":
+            taskType = 1
+        elif type == "Cancellation":
+            taskType = 3
+        else:
+            type = input('Please enter a valid type. (Ex: Class or Visit)\n')
+    startTime = float(input(
+        'What time does this task begin? (Ex: 1:30 PM = 13.5)\n'))
+    while startTime > 24 or startTime<0:
+        startTime = float(input('Please enter a valid start time. (Ex: 1:30 PM = 13.5)\n'))
+    duration = float(input('How long will this task take? format(Ex: 2 Hours and 15 Minutes = 2.25)\n'))
     # If its a recurring task format the question a little differently
-    if (taskType == "2"):
-        date = input('What day does this task start on? format(mm/dd/yyyy)\n')
+    if (taskType == 2):
+        date = int(input('What day does this task start on? (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
     else:
-        date = input('What day does this task occur on? format(mm/dd/yyyy)\n')
+        date = int(input('What day does this task occur on? (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
 
     # If its a recurring task need a date for when it stops recurring
-    if (taskType == "2"):
-
-        # ASSUMING THAT THE TASK DOES NOT GO INTO ANOTHER DAY
-        # NEED TO CHECK IF MINUTES EXCEED 60, HOURS EXCEED 24, OR DAYS EXCEED DAYS OF THE MONTH
-
-        """
-        startTimes = startTime.split(":")
-        startMinutes = int(startTimes[0])*60 + int(startTimes[1])
-        durationTimes = duration.split(":")
-        durationMinutes = int(durationTimes[0])*60*60 + int(durationTimes[1])*60 + int(durationTimes[2])
-        #Check if the task will end on a different day or not
-        if(durationMinutes + startMinutes < 24*60):
-                endDate = date
-        else:
-                dateSplit = date.split("/")
-                endDate = "/".join([dateSplit[0], str( int(dateSplit[1]) +
-                        int((durationMinutes + startMinutes)/ (24*60)) ), dateSplit[2]])
-        print("endDate:" + endDate)
-        """
-        endDate = date
-        freq = input(
-            'How often does this task recur? (daily, weekly, monthly)\n')
+    if (taskType == 2):
+        endDate = int(input('What day does this task end? (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
+        while endDate < date:
+            endDate = int(input('The end date must be after the start date. (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
+        freq = int(input('How often does this task recur? Daily(1) or Weekly(7)\n'))
+        while freq != 1 and freq != 7:
+            freq = int(input('Please enter 1 for Daily or 7 for Weekly\n'))
     # Otherwise just set it as -1
     else:
         endDate = -1
-        freq = "once"
+        freq = 0
 
     # Plug in the details and return the created task
-    return Task(name, taskType, startTime, duration, date, endDate, freq)
+    return Task(name, type, taskType, startTime, duration, date, endDate, freq)
 
 
 '''
@@ -98,74 +94,64 @@ def deleteTask(oldTask, schedule):
 '''
 
 
-def editTask(badTask, schedule):
+def editTask(badTask):
     # Prompt the user for task details to be modified
     # Name
-    prompt = input('would you like to change the task name? (y/n)\n')
+    prompt = input('Would you like to change the task name? (y/n)\n')
     if(prompt == "y"):
         name = input('What would you like to call your task?\n')
-    else:
-        name = badTask.getName()
-    # Task Type
-    prompt = input('would you like to change the task type? (y/n)\n')
+        badTask.setName(name)
+    # Type
+    prompt = input('Would you like to change the task type? (y/n)\n')
     if(prompt == "y"):
-        taskType = input(
-            'Is this task Transient(1), Recurring(2), or an Anti-Task(3)?\n')
-    else:
-        taskType = badTask.getTaskType()
-    # Start Time
-    prompt = input('would you like to change the task start time? (y/n)\n')
-    if(prompt == "y"):
-        startTime = input(
-            'What time does this task begin? format(hours:minutes 24hr)\n')
-    else:
-        startTime = badTask.getStartTime()
-    # Duration
-    prompt = input('would you like to change the task duration? (y/n)\n')
-    if(prompt == "y"):
-        duration = input(
-            'How long will this task take? format(days:hours:minutes)\n')
-    else:
-        duration = badTask.getDuration()
-    # Check if the task is recurring
-    if (taskType == "2"):
-        # Date
-        prompt = input('would you like to change the task start date? (y/n)\n')
-        if(prompt == "y"):
-            date = input(
-                'What day does this task start on? format(mm/dd/yyyy)\n')
-        else:
-            date = badTask.getDate()
-        # End Date
-            # ASSUMING TAKS ENDS ON SAME DATE IT STARTS, NEED TO CHANGE
-            endDate = date
-        """prompt = input('would you like to change the task end date? (y/n)\n')
-                if(prompt == "y"):
-                        date = input('What day does this task end on? format(mm/dd/yyyy)\n')
-                else:
-                        date = badTask.getDate()"""
-        # Frequency
-        if(badTask.type == "2"):
-            prompt = input(
-                'would you like to change the task frequency? (y/n)\n')
-            if(prompt == "y"):
-                freq = input(
-                    'How often does this task recur? (daily, weekly, monthly)\n')
+        type = input('Please enter the task type (Ex: Sleep)\n')
+        taskType = 0
+        while taskType == 0:
+            if (type == "Class" or type == "Study" or type == "Sleep"
+                    or type == "Exercise" or type == "Work" or type == "Meal"):
+                taskType = 2
+            elif type == "Visit" or type == "Shopping" or type == "Appointment":
+                taskType = 1
+            elif type == "Cancellation":
+                taskType = 3
             else:
-                freq = badTask.getFreq()
-        else:
-            freq = input(
-                'How often does this task recur? (daily, weekly, monthly)\n')
-
-    else:
-        # Make sure that endDate is -1 and freq is "once"
-        endDate = -1
-        freq = "once"
-    # Create a new task using any data the user wants to keep
-    # from the old task and any new data they entered
-    newTask = Task(name, taskType, startTime, duration, date, endDate, freq)
-    deleteTask(badTask, schedule)
-    schedule = addTask(newTask, schedule)
+                type = input('Please enter a valid type. (Ex: Class or Visit)\n')
+        badTask.setType(type)
+        badTask.setTaskType(taskType)
+    # Start Time
+    prompt = input('Would you like to change the task start time? (y/n)\n')
+    if(prompt == "y"):
+        startTime = float(input(
+            'What time does this task begin? (Ex: 1:30 PM = 13.5)\n'))
+        while startTime > 24 or startTime < 0:
+            startTime = float(input('Please enter a valid start time. (Ex: 1:30 PM = 13.5)\n'))
+        badTask.setStartTime(startTime)
+    # Duration
+    prompt = input('Would you like to change the task duration? (y/n)\n')
+    if(prompt == "y"):
+        duration = float(input('How long will this task take? format(Ex: 2 Hours and 15 Minutes = 2.25)\n'))
+        badTask.setDuration(duration)
+    # Check if the task is recurring
+    if (taskType == 2):
+        # Date
+        prompt = input('Would you like to change the task start date? (y/n)\n')
+        if(prompt == "y"):
+            date = int(input('What day does this task start on? (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
+            badTask.setDate(date)
+        # End Date
+        prompt = input('Would you like to change the task end date? (y/n)\n')
+        if (prompt == "y"):
+            endDate = int(input('What day does this task end? (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
+            while endDate < date:
+                endDate = int(input('The end date must be after the start date. (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
+            badTask.setEndDate(endDate)
+        # Frequency
+        prompt = input('Would you like to change the frequency (y/n)\n')
+        if (prompt == "y"):
+            freq = int(input('How often does this task recur? Daily(1) or Weekly(7)\n'))
+            while freq != 1 and freq != 7:
+                freq = int(input('Please enter 1 for Daily or 7 for Weekly\n'))
+            badTask.setFrequency(freq)
 
 
 '''
@@ -184,7 +170,6 @@ def findTask(schedule):
             nameMatch.append(task)
     if(len(nameMatch) == 0):
         print("No task found with that name.")
-        return -1
     elif(len(nameMatch) == 1):
         print("Task found.")
         return task
@@ -198,7 +183,6 @@ def findTask(schedule):
                 dateMatch.append(task)
         if(len(dateMatch) == 0):
             print("No task found with that name and date.")
-            return -1
         elif(len(dateMatch) == 1):
             print("Task found.")
             print(task)
@@ -223,7 +207,6 @@ def findTask(schedule):
                     timeMatch.append(task)
             if(len(timeMatch) == 0):
                 print("No task found with that name and date.")
-                return -1
             elif(len(timeMatch) == 1):
                 print("Task found.")
                 print(task)
@@ -243,9 +226,9 @@ def checkNoOverlap(task, schedule):
 
     # If there is another task at that date, check if there are tasks
     # In the same time frame
-    for t in schedule:
-        if(Task.getDate(t) == Task.getDate(task) and Task.getStartTime(t) == Task.getStartTime(task)):
-            return False
+    # for t in schedule:
+    #     if(Task.getDate(t) == Task.getDate(task) and Task.getStartTime(t) == Task.getStartTime(task)):
+    #         return False
     return True
 
 
