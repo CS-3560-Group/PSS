@@ -23,7 +23,9 @@ def newTask():
         elif type == "Cancellation":
             taskType = 3
         else:
-            type = input('Please enter a valid type. (Ex: Class or Visit)\n')
+            print("Please enter a valid type.\nAvailable task types:")
+            printTypes()
+            type = input()
     startTime = float(input(
         'What time does this task begin? (Ex: 1:30 PM = 13.5)\n'))
     while startTime > 24 or startTime<0:
@@ -274,6 +276,32 @@ def checkType(task):
     return False
 
 
+
+
+''' 
+@return void
+'''
+
+def printTypes():
+    taskTypes = {
+        "Recurring": ["Class", "Study", "Sleep", "Exercise", "Work", "Meal"],
+        "Transient": ["Visit", "Shopping", "Appointment"],
+        "Anti-Task": ["Cancellation"]
+    }
+    #print("Recurring")
+    for type in taskTypes["Recurring"]:
+        print(type)
+
+    #print("Transient")
+    for type in taskTypes["Transient"]:
+        print(type)
+
+    #print("Anti-Task")
+    for type in taskTypes["Anti-Task"]:
+        print(type)
+    
+
+
 '''
 @param taskDate, date in format (mm/dd/yyyy)
 @return valid, True if mm has respective dd False if not
@@ -357,6 +385,8 @@ def readFile(fileName):
         # check for valid type
         if(not checkType(t)):
             print('ERROR: Invalid type for ', Task.getName(t))
+            print("Available task types:")
+            printTypes()
             return
         # check for valid date
         if(not checkDate(date)):
