@@ -309,44 +309,11 @@ def printTypes():
 
 
 def checkDate(taskDate):
-    cal = {
-        "01": "31",
-        "02": "28",
-        "03": "31",
-        "04": "30",
-        "05": "31",
-        "06": "30",
-        "07": "31",
-        "08": "31",
-        "09": "30",
-        "10": "31",
-        "11": "30",
-        "12": "31"
-    }
-    dateSplit = taskDate.split("/")  # (mm/dd/yyyy)
-    if(cal[dateSplit[0]] == dateSplit[1]):
+    month = int((int(taskDate) % 10000) / 100)
+    day = (int(taskDate) % 100)
+    if(month > 0 and month < 13 and day > 0 and day <32):
         return True
-
     return False
-
-
-'''
-@param f, task frequency
-@return valid, True if     False if not
-'''
-
-
-def checkFreq(f):
-    freq = {
-        "once": "1",
-        "daily": "2",
-        "weekly": "2"
-    }
-    if(f in freq):
-        return True
-
-    return False
-
 
 '''
 @param fileName, file name of json file
@@ -357,7 +324,6 @@ def checkFreq(f):
 
 def readFile(fileName):
     sch = []
-
     # reads file
     jsonfile = open(fileName, 'r')
     jsondata = jsonfile.read()
@@ -366,42 +332,49 @@ def readFile(fileName):
     for i in range(len(taskObj)):
         name = taskObj[i].get('Name')
         type = taskObj[i].get('Type')
-        startTime = taskObj[i].get('StartTime')
-        duration = taskObj[i].get('Duration')
-        date = taskObj[i].get('Date')
-        endDate = taskObj[i].get('EndDate')
-        frequency = taskObj[i].get('Frequency')
-
-        t = Task(name, type, startTime, duration, date,
+        taskType = 0
+        if (type == "Class" or type == "Study" or type == "Sleep"
+        or type == "Exercise" or type == "Work" or type == "Meal"):
+            taskType = 2
+        elif type == "Visit" or type == "Shopping" or type == "Appointment":
+            taskType = 1
+        elif type == "Cancellation":
+            taskType = 3
+        startTime = float(taskObj[i].get('StartTime'))
+        duration = float(taskObj[i].get('Duration'))
+        date = int(taskObj[i].get('Date'))
+        endDate = int(taskObj[i].get('EndDate'))
+        frequency = int(taskObj[i].get('Frequency'))
+        t = Task(name, type, taskType, startTime, duration, date,
                  endDate, frequency)  # make new task
         # check for conflicting time
         if(not checkNoOverlap(t, sch)):
             print("ERROR: Overlap in schedule")
-            return
+            continue
         # check for unique task name
         if(not checkUniqueName(t, sch)):
             print("ERROR: No unique task names")
-            return
+            continue
         # check for valid type
         if(not checkType(t)):
             print('ERROR: Invalid type for ', Task.getName(t))
             print("Available task types:")
             printTypes()
-            return
+            continue
         # check for valid date
         if(not checkDate(date)):
             print('ERROR: Invalid date for ', Task.getName(t))
-            return
-        # check for valid end date
+            continue
+        #check for valid end date
         if(endDate != -1):
             if(not checkDate(endDate)):
                 print('ERROR: Invalid end date for ', Task.getName(t))
-                return
+                continue
         # check for valid frequency
-        if(not checkFreq(frequency)):
+        if(frequency != 1 and frequency != 7):
             print('ERROR: Invalid frequency for ', Task.getName(
                 t), ' Type: ', type, ' Freq: ', frequency)
-            return
+            continue
         sch.append(t)  # add to schedule
 
     jsonfile.close()

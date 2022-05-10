@@ -6,7 +6,7 @@ the Viewer and Model
 from Task import Task
 import Viewer as v
 import Model as m
-
+import traceback
 
 def main():
         #Where to save schedule to
@@ -20,7 +20,8 @@ def main():
                 schedule = m.readFile(saveFile)
                 print('Schedule found:')
                 v.viewSchedule(schedule)
-        except:
+        except Exception :
+                traceback.print_exc()
                 print('No existing schedule found, creating a new one.')
                 schedule = []
 
@@ -59,7 +60,8 @@ def main():
                 #View Task
                 elif choice == "4":
                         #Prompt the user for the task to be viewed
-                        prompt = input('temp text, get task to view')
+                        print(v.viewTask(schedule))
+
                 #View Schedule
                 elif choice == "5":
                         v.viewSchedule(schedule)

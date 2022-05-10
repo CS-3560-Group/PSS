@@ -10,10 +10,14 @@ week(2), or month(3)
 @return void
 '''
 
+from Task import Task
+import Model as m
 
-def viewTask(schedule, opt):
-        print('viewTask')
 
+def viewTask(schedule):
+        badTask = m.findTask(schedule)
+        if badTask != None:
+                return badTask
 
 '''
 @param schedule, list of user tasks
