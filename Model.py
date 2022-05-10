@@ -103,9 +103,9 @@ def editTask(badTask):
         badTask.setName(name)
     # Type
     prompt = input('Would you like to change the task type? (y/n)\n')
+    taskType = 0
     if(prompt == "y"):
         type = input('Please enter the task type (Ex: Sleep)\n')
-        taskType = 0
         while taskType == 0:
             if (type == "Class" or type == "Study" or type == "Sleep"
                     or type == "Exercise" or type == "Work" or type == "Meal"):
