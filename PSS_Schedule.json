@@ -1,14 +1,5 @@
 [
 	{
-		"Name": "test",
-		"Type": "Class",
-		"Date": "20201029",
-		"StartTime": "10.5",
-		"Duration": "1.0",
-		"EndDate": "20203029",
-		"Frequency": "1"
-	},
-	{
 		"Name": "CS 3560",
 		"Type": "Class",
 		"Date": "20220112",
@@ -16,6 +7,15 @@
 		"Duration": "1.25",
 		"EndDate": "20220519",
 		"Frequency": "7"
+	},
+	{
+		"Name": "Haircut",
+		"Type": "Appointment",
+		"Date": "20220520",
+		"StartTime": "14.0",
+		"Duration": "1.5",
+		"EndDate": "-1",
+		"Frequency": "0"
 	}
 
 ]

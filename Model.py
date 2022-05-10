@@ -12,7 +12,9 @@ from Task import Task
 def newTask():
     # Prompt the user to ask for details about the task
     name = input('What would you like to call your new task?\n')
-    type = input('Please enter the task type (Ex: Sleep)\n')
+    print('Please enter the task type')
+    printTypes()
+    type = input()
     taskType = 0
     while taskType == 0:
         if (type == "Class" or type == "Study" or type == "Sleep"
@@ -107,7 +109,9 @@ def editTask(badTask):
     prompt = input('Would you like to change the task type? (y/n)\n')
     taskType = 0
     if(prompt == "y"):
-        type = input('Please enter the task type (Ex: Sleep)\n')
+        print('Please enter the task type')
+        printTypes()
+        type = input()
         while taskType == 0:
             if (type == "Class" or type == "Study" or type == "Sleep"
                     or type == "Exercise" or type == "Work" or type == "Meal"):
@@ -117,7 +121,9 @@ def editTask(badTask):
             elif type == "Cancellation":
                 taskType = 3
             else:
-                type = input('Please enter a valid type. (Ex: Class or Visit)\n')
+                print('Please enter a valid type.\n')
+                printTypes()
+                type = input()
         badTask.setType(type)
         badTask.setTaskType(taskType)
     # Start Time
@@ -288,6 +294,8 @@ def printTypes():
         "Transient": ["Visit", "Shopping", "Appointment"],
         "Anti-Task": ["Cancellation"]
     }
+    
+    print("Available task types:")
     #print("Recurring")
     for type in taskTypes["Recurring"]:
         print(type)
@@ -358,7 +366,6 @@ def readFile(fileName):
         # check for valid type
         if(not checkType(t)):
             print('ERROR: Invalid type for ', Task.getName(t))
-            print("Available task types:")
             printTypes()
             continue
         # check for valid date
