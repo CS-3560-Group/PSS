@@ -10,19 +10,19 @@ class Task:
     @param type, string from defined list (reference lecture 15 page 7)
     @param startTime, float of 24 hour clock rounded to nearest 15 minutes
     @param duration, float of number of hours rounded to nearest 15 minutes
-    @param date, integer in the form YYYYMMDD
+    @param startDate, integer in the form YYYYMMDD
     @param endDate, integer in the form YYYYMMDD
     @param freq, integer represents 1(daily), 7(weekly)
     @param taskType, integer with Transient(1), Recurring(2), Anti(3)
     '''
 
-    def __init__(self, name, type, taskType, startTime, duration, date, endDate, freq):
+    def __init__(self, name, type, taskType, startTime, duration, startDate, endDate, freq):
         # add checks for valid duration, dates, type, and overlap
         self.name = name
         self.type = type
         self.startTime = startTime
         self.duration = duration
-        self.date = date
+        self.startDate = startDate
         self.endDate = endDate
         self.freq = freq
         self.taskType = taskType
@@ -36,14 +36,14 @@ class Task:
         if self.taskType != 2:
             return ('\nTask: {name} is a {task}\n\t  It starts at {hour:02d}:{minute:02d} on {year}/{month:02d}/{day:02d}'.format(name=self.name, task=self.type,
                     hour=int(float(self.startTime)), minute=int(((float(self.startTime) * 60) % 60)),
-                    year=int(int(self.date) / 10000), month=int((int(self.date) % 10000) / 100),
-                    day=(int(self.date) % 100)))
+                    year=int(int(self.startDate) / 10000), month=int((int(self.startDate) % 10000) / 100),
+                    day=(int(self.startDate) % 100)))
         else:
             return ('\nTask: {name} is a {task}\n\t  It starts at {hour:02d}:{minute:02d} on {year}/{month:02d}/{day:02d} and runs '
                     '{frequency}\n\t  It ends on {eyear}/{emonth:02d}/{eday:02d}'.format(name = self.name, task = self.type,
                      hour = int(float(self.startTime)), minute = int(((float(self.startTime)*60)%60)),
-                     year = int(int(self.date)/10000), month = int((int(self.date) % 10000) / 100),
-                     day = (int(self.date) % 100), frequency = frequent, eyear = int(int(self.endDate) / 10000),
+                     year = int(int(self.startDate)/10000), month = int((int(self.startDate) % 10000) / 100),
+                     day = (int(self.startDate) % 100), frequency = frequent, eyear = int(int(self.endDate) / 10000),
                      emonth = int((int(self.endDate) % 10000) / 100), eday = (int(self.endDate)) % 100))
 
 
@@ -63,8 +63,8 @@ class Task:
       return self.duration
 
 
-    def getDate(self):
-      return self.date
+    def getStartDate(self):
+      return self.startDate
 
 
     def getEndDate(self):
@@ -94,8 +94,8 @@ class Task:
       self.duration = duration
 
 
-    def setDate(self, date):
-      self.date = date
+    def setStartDate(self, startDate):
+      self.startDate = startDate
 
 
     def setEndDate(self, endDate):

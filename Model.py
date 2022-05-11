@@ -35,14 +35,14 @@ def newTask():
     duration = float(input('How long will this task take? format(Ex: 2 Hours and 15 Minutes = 2.25)\n'))
     # If its a recurring task format the question a little differently
     if (taskType == 2):
-        date = int(input('What day does this task start on? (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
+        startDate = int(input('What day does this task start on? (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
     else:
-        date = int(input('What day does this task occur on? (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
+        startDate = int(input('What day does this task occur on? (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
 
     # If its a recurring task need a date for when it stops recurring
     if (taskType == 2):
         endDate = int(input('What day does this task end? (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
-        while endDate < date:
+        while endDate < startDate:
             endDate = int(input('The end date must be after the start date. (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
         freq = int(input('How often does this task recur? Daily(1) or Weekly(7)\n'))
         while freq != 1 and freq != 7:
@@ -53,7 +53,7 @@ def newTask():
         freq = 0
 
     # Plug in the details and return the created task
-    return Task(name, type, taskType, startTime, duration, date, endDate, freq)
+    return Task(name, type, taskType, startTime, duration, startDate, endDate, freq)
 
 
 '''
@@ -141,16 +141,16 @@ def editTask(badTask):
         badTask.setDuration(duration)
     # Check if the task is recurring
     if (taskType == 2):
-        # Date
+        # Start Date
         prompt = input('Would you like to change the task start date? (y/n)\n')
         if(prompt == "y"):
-            date = int(input('What day does this task start on? (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
-            badTask.setDate(date)
+            startDate = int(input('What day does this task start on? (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
+            badTask.setStartDate(startDate)
         # End Date
         prompt = input('Would you like to change the task end date? (y/n)\n')
         if (prompt == "y"):
             endDate = int(input('What day does this task end? (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
-            while endDate < date:
+            while endDate < startDate:
                 endDate = int(input('The end date must be after the start date. (yyyymmdd)(Ex: May 14, 2022 = 20220614)\n'))
             badTask.setEndDate(endDate)
         # Frequency
@@ -197,7 +197,7 @@ def checkNoOverlap(task, schedule):
     # If there is another task at that date, check if there are tasks
     # In the same time frame
     # for t in schedule:
-    #     if(Task.getDate(t) == Task.getDate(task) and Task.getStartTime(t) == Task.getStartTime(task)):
+    #     if(Task.getStartDate(t) == Task.getStartDate(task) and Task.getStartTime(t) == Task.getStartTime(task)):
     #         return False
     return True
 
@@ -312,10 +312,10 @@ def readFile(fileName):
             taskType = 3
         startTime = float(taskObj[i].get('StartTime'))
         duration = float(taskObj[i].get('Duration'))
-        date = int(taskObj[i].get('Date'))
+        startDate = int(taskObj[i].get('StartDate'))
         endDate = int(taskObj[i].get('EndDate'))
         frequency = int(taskObj[i].get('Frequency'))
-        t = Task(name, type, taskType, startTime, duration, date,
+        t = Task(name, type, taskType, startTime, duration, startDate,
                  endDate, frequency)  # make new task
         # check for conflicting time
         if(not checkNoOverlap(t, sch)):
@@ -330,8 +330,8 @@ def readFile(fileName):
             print('ERROR: Invalid type for ', Task.getName(t))
             printTypes()
             return
-        # check for valid date
-        if(not checkDate(date)):
+        # check for valid start date
+        if(not checkDate(startDate)):
             print('ERROR: Invalid date for ', Task.getName(t))
             return
         #check for valid end date
@@ -369,7 +369,7 @@ def writeFile(fileName, schedule):
             outjson.write('\t{\n')
             outjson.write("\t\t\"Name\": \"" + task.getName() + "\",\n")
             outjson.write("\t\t\"Type\": \"" + task.getType() + "\",\n")
-            outjson.write("\t\t\"Date\": \"" + str(task.getDate()) + "\",\n")
+            outjson.write("\t\t\"StartDate\": \"" + str(task.getStartDate()) + "\",\n")
             outjson.write("\t\t\"StartTime\": \"" +
                           str(task.getStartTime()) + "\",\n")
             outjson.write("\t\t\"Duration\": \"" +

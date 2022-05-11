@@ -2,7 +2,7 @@
 	{
 		"Name": "CS 3560",
 		"Type": "Class",
-		"Date": "20220112",
+		"StartDate": "20220112",
 		"StartTime": "17.5",
 		"Duration": "1.25",
 		"EndDate": "20220519",
@@ -11,7 +11,7 @@
 	{
 		"Name": "Haircut",
 		"Type": "Appointment",
-		"Date": "20220520",
+		"StartDate": "20220520",
 		"StartTime": "14.0",
 		"Duration": "1.5",
 		"EndDate": "-1",
