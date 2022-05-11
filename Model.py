@@ -378,10 +378,11 @@ def readFile(fileName):
                 print('ERROR: Invalid end date for ', Task.getName(t))
                 continue
         # check for valid frequency
-        if(frequency != 1 and frequency != 7):
-            print('ERROR: Invalid frequency for ', Task.getName(
-                t), ' Type: ', type, ' Freq: ', frequency)
-            continue
+        if frequency !=0:
+            if(frequency != 1 and frequency != 7):
+                print('ERROR: Invalid frequency for ', Task.getName(
+                    t), ' Type: ', type, ' Freq: ', frequency)
+                continue
         sch.append(t)  # add to schedule
 
     jsonfile.close()
