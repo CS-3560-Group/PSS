@@ -320,31 +320,31 @@ def readFile(fileName):
         # check for conflicting time
         if(not checkNoOverlap(t, sch)):
             print("ERROR: Overlap in schedule")
-            continue
+            return
         # check for unique task name
         if(not checkUniqueName(t, sch)):
             print("ERROR: No unique task names")
-            continue
+            return
         # check for valid type
         if(not checkType(t)):
             print('ERROR: Invalid type for ', Task.getName(t))
             printTypes()
-            continue
+            return
         # check for valid date
         if(not checkDate(date)):
             print('ERROR: Invalid date for ', Task.getName(t))
-            continue
+            return
         #check for valid end date
         if(endDate != -1):
             if(not checkDate(endDate)):
                 print('ERROR: Invalid end date for ', Task.getName(t))
-                continue
+                return
         # check for valid frequency
         if frequency !=0:
             if(frequency != 1 and frequency != 7):
                 print('ERROR: Invalid frequency for ', Task.getName(
                     t), ' Type: ', type, ' Freq: ', frequency)
-                continue
+                return
         sch.append(t)  # add to schedule
 
     jsonfile.close()
