@@ -180,45 +180,7 @@ def findTask(schedule):
         print("No task found with that name.")
     elif(len(nameMatch) == 1):
         print("Task found.")
-        return task
-    else:
-        # List of tasks with matching names and dates
-        dateMatch = []
-        # If there are multiple tasks with the same name, ask them for a date
-        date = input("What date does the task start on?\n")
-        for task in nameMatch:
-            if(task.getDate() == date):
-                dateMatch.append(task)
-        if(len(dateMatch) == 0):
-            print("No task found with that name and date.")
-        elif(len(dateMatch) == 1):
-            print("Task found.")
-            print(task)
-            return task
-        else:
-            # List of tasks with matching names and dates
-            timeMatch = []
-            # If there are multiple tasks with the same date ask them for a time
-            time = input("What time does the task start?\n")
-            for task in dateMatch:
-                #######
-
-                # Might want to accept any time in the
-                # Tasks entire runtime rather than exactly
-                # when they start
-
-                # So a task that starts at 10 and ends at 11
-                # would be found if the time entered was 10:30
-
-                #######
-                if(task.getStartTime() == time):
-                    timeMatch.append(task)
-            if(len(timeMatch) == 0):
-                print("No task found with that name and date.")
-            elif(len(timeMatch) == 1):
-                print("Task found.")
-                print(task)
-                return task
+        return nameMatch[0]
 
 
 '''

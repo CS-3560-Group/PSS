@@ -34,17 +34,17 @@ class Task:
     def __str__(self):
         frequent = "daily" if self.freq == 1 else "weekly"
         if self.taskType != 2:
-            return ('\nTask: {name} is a {task}\n\t  It starts at {hour}:{minute} on {year}/{month}/{day}'.format(name=self.name, task=self.type,
-                    hour=str(int(float(self.startTime))), minute=str(int(((float(self.startTime) * 60) % 60))),
-                    year=str(int(int(self.date) / 10000)), month=str(int((int(self.date) % 10000) / 100)),
-                    day=str((int(self.date) % 100))))
+            return ('\nTask: {name} is a {task}\n\t  It starts at {hour:02d}:{minute:02d} on {year}/{month:02d}/{day:02d}'.format(name=self.name, task=self.type,
+                    hour=int(float(self.startTime)), minute=int(((float(self.startTime) * 60) % 60)),
+                    year=int(int(self.date) / 10000), month=int((int(self.date) % 10000) / 100),
+                    day=(int(self.date) % 100)))
         else:
-            return ('\nTask: {name} is a {task}\n\t  It starts at {hour}:{minute} on {year}/{month}/{day} and runs '
-                    '{frequency}\n\t  It ends on {eyear}/{emonth}/{eday}'.format(name = self.name, task = self.type,
-                     hour = str(int(float(self.startTime))), minute = str(int(((float(self.startTime)*60)%60))),
-                     year = str(int(int(self.date)/10000)), month = str(int((int(self.date) % 10000) / 100)),
-                     day = str((int(self.date) % 100)), frequency = frequent, eyear = str(int(int(self.endDate) / 10000)),
-                     emonth = str(int((int(self.endDate) % 10000) / 100)), eday = str((int(self.endDate)) % 100)))
+            return ('\nTask: {name} is a {task}\n\t  It starts at {hour:02d}:{minute:02d} on {year}/{month:02d}/{day:02d} and runs '
+                    '{frequency}\n\t  It ends on {eyear}/{emonth:02d}/{eday:02d}'.format(name = self.name, task = self.type,
+                     hour = int(float(self.startTime)), minute = int(((float(self.startTime)*60)%60)),
+                     year = int(int(self.date)/10000), month = int((int(self.date) % 10000) / 100),
+                     day = (int(self.date) % 100), frequency = frequent, eyear = int(int(self.endDate) / 10000),
+                     emonth = int((int(self.endDate) % 10000) / 100), eday = (int(self.endDate)) % 100))
 
 
     #Getters
