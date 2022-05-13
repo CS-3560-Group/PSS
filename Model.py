@@ -419,24 +419,30 @@ def writeFile(fileName, schedule):
 @throws Exception
 '''
 
-def altWriteFile(fileName, schedule,day,opt):
+def altWriteFile(fileName, schedule,date,opt):
     '''
     - write all of the tasks for that time period, in sorted order
     - anti-task, both it and the recurring task instance it cancels will not be included in the list
     - recurring task will not be displayed as a single entry.  Rather, each instance
     '''
     
-    if(not checkDate(day)):
-        print("Invalid Date:",str(day))
+    if(not checkDate(date)):
+        print("Invalid Date:",str(date))
         return
     count = 0
     altSchedule = []    
 
-    if opt == 1:
+    if opt == 1: #write day
         for task in schedule:
-            if Task.getStartDate(task) == day:
+            if Task.getStartDate(task) == date:
                 count = count + 1
                 altSchedule.append(task)
+
+    if opt ==2: #write week
+        endDay = date + 7
+
+    if opt == 3: #write month
+        endDay == date + 100
 
 
 
