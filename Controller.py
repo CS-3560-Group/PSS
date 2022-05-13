@@ -11,11 +11,13 @@ import traceback
 
 def main():
     # Where to save schedule to
-    saveFile = "PSS_Schedule.json"
+#     saveFile = "PSS_Schedule.json"
     # Variable to enable or disable debugging
     debug = False
-    print('Welcome to PSS')
+    
+    saveFile = printWelcome()
     print('Checking for existing schedule')
+
     # Try and load an existing schedule if there is one
     try:
         schedule = m.readFile(saveFile)
@@ -112,6 +114,20 @@ def printWrite():
     print('2. Week')
     print('3. Month')
     print('4. Entire Scheduled')
+
+def printWelcome():
+    opt = -1
+    print('Welcome to PSS')
+    while opt != 1 and opt != 2:
+        print('What file will you load?')
+        print('1. Default schedule (PSS_Schedule.json)')
+        print('2. Custom schedule')
+        opt = int(input())
+        print()
+    if opt == 1:
+            return 'PSS_Schedule.json'
+    else:
+            return input('Enter file name with extension:')
 
 
 if __name__ == '__main__':
