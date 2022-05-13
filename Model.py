@@ -221,6 +221,43 @@ def checkNoOverlap(task, schedule):
     # for t in schedule:
     #     if(Task.getStartDate(t) == Task.getStartDate(task) and Task.getStartTime(t) == Task.getStartTime(task)):
     #         return False
+    start = task.getStartDate()
+    time = task.getStartTime()
+    for t in schedule:
+
+        # for transient tasks
+        if(t.getTaskType() == 1):
+            # only check t if it is on the same day as task
+            if(start == t.getStartDate()):
+                # check if task start time is between time and time+duration of comparative task 
+                end = t.getStartTime() + t.getDuration() 
+                if(time >= t.getStartTime() & time < end):
+                    return False
+
+        # for recurring tasks
+        elif(t.getTaskType() == 2):
+            end = task.getEndDate()
+            # check each day in range from start date to end date
+            while(start < end): # make sure start stays under end date
+                # for daily recurring tasks, check each day in i
+                if(t.getFrequency() == 1):
+                    start += 1
+                # for weekly recurring tasks, check each week
+                elif(t.getFrequency() == 7):
+                    start += 7
+                if(start == t.getStartDate()):
+                    end = t.getStartTime() + t.getDuration() 
+                    if(time >= t.getStartTime() & time < end):
+                        return False
+
+        # for anti tasks (only if task is also anti task)
+        elif(t.getTaskType() == 3 & task.getTaskType() == 3):
+            # only check t if it is on the same day as task
+            if(start == t.getStartDate()):
+                # check if task start time is between time and time+duration of comparative task 
+                end = t.getStartTime() + t.getDuration() 
+                if(time >= t.getStartTime() & time < end):
+                    return False
     return True
 
 
