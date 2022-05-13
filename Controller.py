@@ -28,8 +28,6 @@ def main():
         print('No existing schedule found, creating a new one.')
         schedule = []
 
-    # m.altWriteFile("daySchedule.json",schedule, 20220112,2)
-
     # Main menu to allow for creating/editing/deleting/viewing tasks, exit program
     running = True
     while(running):
@@ -85,7 +83,7 @@ def main():
                 m.writeFile(f, schedule)
             else:
                 d = int(input('Enter start date (yyyymmdd):'))
-                
+
                 m.altWriteFile(f, schedule, d, opt)
 
             print("Saved.")

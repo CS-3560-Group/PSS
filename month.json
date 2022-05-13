@@ -1,55 +1,37 @@
 [
 	{
-		"Name": "PLS FINAL",
-		"Type": "Appointment",
-		"StartDate": "20220516",
-		"StartTime": "8.0",
-		"Duration": "3.0",
+		"Name": "CS 3560",
+		"Type": "Class",
+		"StartDate": "20220504",
+		"StartTime": "17.25",
+		"Duration": "1.25",
 		"EndDate": "-1",
 		"Frequency": "0"
 	},
 	{
-		"Name": "Gerry Garden",
-		"Type": "Visit",
-		"StartDate": "20220516",
-		"StartTime": "12.0",
-		"Duration": "5.0",
+		"Name": "CS 3560",
+		"Type": "Class",
+		"StartDate": "20220511",
+		"StartTime": "17.25",
+		"Duration": "1.25",
 		"EndDate": "-1",
 		"Frequency": "0"
 	},
 	{
-		"Name": "3010 FINAL",
-		"Type": "Appointment",
-		"StartDate": "20220517",
-		"StartTime": "9.0",
-		"Duration": "2.0",
+		"Name": "CS 3560",
+		"Type": "Class",
+		"StartDate": "20220518",
+		"StartTime": "17.25",
+		"Duration": "1.25",
 		"EndDate": "-1",
 		"Frequency": "0"
 	},
 	{
-		"Name": "3310 FINAL",
-		"Type": "Appointment",
-		"StartDate": "20220517",
-		"StartTime": "13.0",
-		"Duration": "3.0",
-		"EndDate": "-1",
-		"Frequency": "0"
-	},
-	{
-		"Name": "3110 FINAL",
-		"Type": "Appointment",
-		"StartDate": "20220519",
-		"StartTime": "1.0",
-		"Duration": "3.0",
-		"EndDate": "-1",
-		"Frequency": "0"
-	},
-	{
-		"Name": "3560 FINAL",
+		"Name": "Haircut",
 		"Type": "Appointment",
 		"StartDate": "20220520",
-		"StartTime": "17.0",
-		"Duration": "2.0",
+		"StartTime": "14.0",
+		"Duration": "1.5",
 		"EndDate": "-1",
 		"Frequency": "0"
 	}

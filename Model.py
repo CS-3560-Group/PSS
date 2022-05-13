@@ -229,8 +229,8 @@ def checkNoOverlap(task, schedule):
         if(t.getTaskType() == 1):
             # only check t if it is on the same day as task
             if(start == t.getStartDate()):
-                # check if task start time is between time and time+duration of comparative task 
-                end = t.getStartTime() + t.getDuration() 
+                # check if task start time is between time and time+duration of comparative task
+                end = t.getStartTime() + t.getDuration()
                 if(time >= t.getStartTime() and time < end):
                     return False
 
@@ -238,7 +238,7 @@ def checkNoOverlap(task, schedule):
         elif(t.getTaskType() == 2):
             end = task.getEndDate()
             # check each day in range from start date to end date
-            while(start < end): # make sure start stays under end date
+            while(start < end):  # make sure start stays under end date
                 # for daily recurring tasks, check each day in i
                 if(t.getFrequency() == 1):
                     start += 1
@@ -246,7 +246,7 @@ def checkNoOverlap(task, schedule):
                 elif(t.getFrequency() == 7):
                     start += 7
                 if(start == t.getStartDate()):
-                    end = t.getStartTime() + t.getDuration() 
+                    end = t.getStartTime() + t.getDuration()
                     if(time >= t.getStartTime() & time < end):
                         return False
 
@@ -254,8 +254,8 @@ def checkNoOverlap(task, schedule):
         elif(t.getTaskType() == 3 & task.getTaskType() == 3):
             # only check t if it is on the same day as task
             if(start == t.getStartDate()):
-                # check if task start time is between time and time+duration of comparative task 
-                end = t.getStartTime() + t.getDuration() 
+                # check if task start time is between time and time+duration of comparative task
+                end = t.getStartTime() + t.getDuration()
                 if(time >= t.getStartTime() & time < end):
                     return False
     return True
@@ -366,7 +366,7 @@ def readFile(fileName):
     for i in range(len(taskObj)):
         name = taskObj[i].get('Name')
         type = taskObj[i].get('Type')
-        taskType = 0
+        # taskType = 0
         if (type == "Class" or type == "Study" or type == "Sleep"
                 or type == "Exercise" or type == "Work" or type == "Meal"):
             taskType = 2
@@ -484,70 +484,67 @@ def altWriteFile(fileName, schedule, date, opt):
         print("No tasks written to", fileName)
         return
 
-    
     cal = {
         1: 31,
         2: 28,
-        3:31,
-        4:30,
-        5:31,
-        6:30,
-        7:31,
-        8:31,
-        9:30,
-        10:31,
-        11:30,
-        12:31
+        3: 31,
+        4: 30,
+        5: 31,
+        6: 30,
+        7: 31,
+        8: 31,
+        9: 30,
+        10: 31,
+        11: 30,
+        12: 31
     }
 
     count = 0
     altSchedule = []
 
     # date format yyyymmdd
-
+    #calculate the end day based on input
     if opt == 1:  # write day
         endDay = date
 
     if opt == 2:  # write week
         endDay = date + 7  # check if overflow of week
-        #if the day is past month's last day, increment month, set day as the difference
-        
+        # if the day is past month's last day, increment month, set day as the difference
+
         day = (int(endDay) % 100)
         year = int((int(date) % 100000000) / 10000)
         month = int((int(endDay) % 10000) / 100)
-        
+
         if day > cal[month]:
             diff = day - cal[month]
-            
+
             if month != 12:
                 endDay = (year*10000) + (month+1)*100 + diff
             else:
                 endDay = (year+1)*10000 + 100 + diff
-            
 
     if opt == 3:  # write month
-        endDay = date + 100  
-        
+        endDay = date + 100
+
         # check if overflow of month
         day = (int(endDay) % 100)
         year = int((int(date) % 100000000) / 10000)
         month = int((int(endDay) % 10000) / 100)
 
-        #if december change to january
-        if month > 12:  
+        # if december change to january
+        if month > 12:
             endDay = (year+1)*10000 + 100 + day
 
         day = (int(endDay) % 100)
         year = int((int(date) % 100000000) / 10000)
         month = int((int(endDay) % 10000) / 100)
 
-        #if days are greater than respective month
+        # if days are greater than respective month
         if day > cal[month]:
             endDay = year*10000 + month*100 + cal[month]
 
-
-
-    for task in schedule:
+    rec = recSchedule(schedule)
+    for task in rec:
         d = Task.getStartDate(task)
         if d >= date and d <= endDay:
             count = count + 1
@@ -585,4 +582,74 @@ def altWriteFile(fileName, schedule, date, opt):
     if opt == 1:
         print(count, 'task(s) on', date, 'added to', fileName)
     else:
-        print(count, 'task(s) from', date,'through',endDay, 'added to', fileName)
+        print(count, 'task(s) from', date, 'through',
+              endDay, 'added to', fileName)
+
+
+'''
+@param schedule, list of user's tasks
+@return rec, recurring tasks appear as transient tasks repeating
+'''
+
+
+def recSchedule(schedule):
+    rec = []
+
+    cal = {
+        1: 31,
+        2: 28,
+        3: 31,
+        4: 30,
+        5: 31,
+        6: 30,
+        7: 31,
+        8: 31,
+        9: 30,
+        10: 31,
+        11: 30,
+        12: 31
+    }
+
+    for task in schedule:
+        # print('task #', Task.getTaskType(task))
+        if Task.getTaskType(task) == 2:
+            freq = Task.getFrequency(task)  # either 1 or 7
+            currDate = Task.getStartDate(task)
+            # print(type(currDate))
+            endDate = Task.getEndDate(task)
+
+            name = Task.getName(task) 
+            typ = Task.getType(task)
+            startTime = Task.getStartTime(task)
+            dur = Task.getDuration(task)
+
+            #change recursive task to transient
+            taskType = 1
+            endDay = -1
+            f = 0
+
+            while currDate <= endDate:
+                tempTask = Task(name, typ, taskType,startTime,dur,currDate,endDay, f)
+                rec.append(tempTask)
+
+                currDate = currDate + freq
+
+                # check if overflow of week/month/year
+                day = (int(currDate) % 100)
+                year = int((int(currDate) % 100000000) / 10000)
+                month = int((int(currDate) % 10000) / 100)
+
+                # if the day is past month's last day, increment month, set day as the difference
+                if day > cal[month]:
+                    diff = day - cal[month]
+
+                    if month != 12:
+                        currDate = (year*10000) + (month+1)*100 + diff
+                    # if december change to january
+                    else:
+                        currDate = (year+1)*10000 + 100 + diff
+
+        else:
+            rec.append(task)
+
+    return rec
