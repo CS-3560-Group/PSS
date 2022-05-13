@@ -231,7 +231,7 @@ def checkNoOverlap(task, schedule):
             if(start == t.getStartDate()):
                 # check if task start time is between time and time+duration of comparative task 
                 end = t.getStartTime() + t.getDuration() 
-                if(time >= t.getStartTime() & time < end):
+                if(time >= t.getStartTime() and time < end):
                     return False
 
         # for recurring tasks
@@ -484,8 +484,7 @@ def altWriteFile(fileName, schedule, date, opt):
         print("No tasks written to", fileName)
         return
 
-    month = int((int(date) % 10000) / 100)
-    day = (int(date) % 100)
+    
     cal = {
         1: 31,
         2: 28,
@@ -511,9 +510,42 @@ def altWriteFile(fileName, schedule, date, opt):
 
     if opt == 2:  # write week
         endDay = date + 7  # check if overflow of week
+        #if the day is past month's last day, increment month, set day as the difference
+        
+        day = (int(endDay) % 100)
+        year = int((int(date) % 100000000) / 10000)
+        month = int((int(endDay) % 10000) / 100)
+        
+        if day > cal[month]:
+            diff = day - cal[month]
+            
+            if month != 12:
+                endDay = (year*10000) + (month+1)*100 + diff
+            else:
+                endDay = (year+1)*10000 + 100 + diff
+            
 
     if opt == 3:  # write month
-        endDay = date + 100  # check if overflow of month
+        endDay = date + 100  
+        
+        # check if overflow of month
+        day = (int(endDay) % 100)
+        year = int((int(date) % 100000000) / 10000)
+        month = int((int(endDay) % 10000) / 100)
+
+        #if december change to january
+        if month > 12:  
+            endDay = (year+1)*10000 + 100 + day
+
+        day = (int(endDay) % 100)
+        year = int((int(date) % 100000000) / 10000)
+        month = int((int(endDay) % 10000) / 100)
+
+        #if days are greater than respective month
+        if day > cal[month]:
+            endDay = year*10000 + month*100 + cal[month]
+
+
 
     for task in schedule:
         d = Task.getStartDate(task)

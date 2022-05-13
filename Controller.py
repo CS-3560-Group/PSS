@@ -85,6 +85,7 @@ def main():
                 m.writeFile(f, schedule)
             else:
                 d = int(input('Enter start date (yyyymmdd):'))
+                
                 m.altWriteFile(f, schedule, d, opt)
 
             print("Saved.")
@@ -128,7 +129,7 @@ def printWelcome():
     if opt == 1:
             return 'PSS_Schedule.json'
     else:
-            return input('Enter file name with extension:')
+            return input('Enter file name with extension: ')
 
 
 if __name__ == '__main__':

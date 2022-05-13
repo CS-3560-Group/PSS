@@ -1,29 +1,56 @@
 [
 	{
-		"Name": "CS3010",
-		"Type": "Class",
-		"StartDate": "20220112",
-		"StartTime": "10.0",
-		"Duration": "1.25",
-		"EndDate": "20220519",
-		"Frequency": "7"
+		"Name": "PLS FINAL",
+		"Type": "Appointment",
+		"StartDate": "20220516",
+		"StartTime": "8.0",
+		"Duration": "3.0",
+		"EndDate": "-1",
+		"Frequency": "0"
 	},
 	{
-		"Name": "CS 3010",
-		"Type": "Class",
-		"StartDate": "20220114",
-		"StartTime": "10.0",
-		"Duration": "1.25",
-		"EndDate": "20220519",
-		"Frequency": "7"
+		"Name": "Gerry Garden",
+		"Type": "Visit",
+		"StartDate": "20220516",
+		"StartTime": "12.0",
+		"Duration": "5.0",
+		"EndDate": "-1",
+		"Frequency": "0"
 	},
 	{
-		"Name": "CS3310",
-		"Type": "Class",
-		"StartDate": "20220112",
+		"Name": "3010 FINAL",
+		"Type": "Appointment",
+		"StartDate": "20220517",
+		"StartTime": "9.0",
+		"Duration": "2.0",
+		"EndDate": "-1",
+		"Frequency": "0"
+	},
+	{
+		"Name": "3310 FINAL",
+		"Type": "Appointment",
+		"StartDate": "20220517",
 		"StartTime": "13.0",
-		"Duration": "1.25",
-		"EndDate": "20220519",
-		"Frequency": "7"
+		"Duration": "3.0",
+		"EndDate": "-1",
+		"Frequency": "0"
+	},
+	{
+		"Name": "3110 FINAL",
+		"Type": "Appointment",
+		"StartDate": "20220519",
+		"StartTime": "1.0",
+		"Duration": "3.0",
+		"EndDate": "-1",
+		"Frequency": "0"
+	},
+	{
+		"Name": "3560 FINAL",
+		"Type": "Appointment",
+		"StartDate": "20220520",
+		"StartTime": "17.0",
+		"Duration": "2.0",
+		"EndDate": "-1",
+		"Frequency": "0"
 	}
 ]

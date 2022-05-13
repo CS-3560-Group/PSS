@@ -1,4 +1,7 @@
 tester.json
+day.json
+week.json
+month.json
 __pycache__/Model.cpython-39.pyc
 __pycache__/Viewer.cpython-39.pyc
 __pycache__/Task.cpython-39.pyc

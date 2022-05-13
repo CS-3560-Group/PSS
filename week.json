@@ -1,29 +1,20 @@
 [
 	{
-		"Name": "CS3010",
-		"Type": "Class",
-		"StartDate": "20220112",
-		"StartTime": "10.0",
-		"Duration": "1.25",
-		"EndDate": "20220519",
-		"Frequency": "7"
+		"Name": "PLS FINAL",
+		"Type": "Appointment",
+		"StartDate": "20220516",
+		"StartTime": "8.0",
+		"Duration": "3.0",
+		"EndDate": "-1",
+		"Frequency": "0"
 	},
 	{
-		"Name": "CS 3010",
-		"Type": "Class",
-		"StartDate": "20220114",
-		"StartTime": "10.0",
-		"Duration": "1.25",
-		"EndDate": "20220519",
-		"Frequency": "7"
-	},
-	{
-		"Name": "CS3310",
-		"Type": "Class",
-		"StartDate": "20220112",
-		"StartTime": "13.0",
-		"Duration": "1.25",
-		"EndDate": "20220519",
-		"Frequency": "7"
+		"Name": "Gerry Garden",
+		"Type": "Visit",
+		"StartDate": "20220516",
+		"StartTime": "12.0",
+		"Duration": "5.0",
+		"EndDate": "-1",
+		"Frequency": "0"
 	}
 ]
