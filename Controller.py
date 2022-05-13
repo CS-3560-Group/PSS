@@ -41,7 +41,8 @@ def main():
         # Exit
         if choice == "0":
             running = False
-            m.writeFile(saveFile, schedule)
+            f = input('Enter output file (include extension):')
+            m.writeFile(f, schedule)
             break
         # Create Task
         elif choice == "1":
@@ -79,11 +80,11 @@ def main():
                 opt = int(input())
 
             f = input('Enter output file (include extension):')
-            d = int(input('Enter start date (yyyymmdd):'))
 
             if opt == 4:
                 m.writeFile(f, schedule)
             else:
+                d = int(input('Enter start date (yyyymmdd):'))
                 m.altWriteFile(f, schedule, d, opt)
 
             print("Saved.")
