@@ -405,6 +405,69 @@ def writeFile(fileName, schedule):
                 outjson.write(',')
             outjson.write('\n')
 
-    outjson.write('\n]')
+    outjson.write(']')
 
     outjson.close()
+
+
+'''
+@param fileName, file name of json file
+@param schedule, list of user's tasks
+@param day, start day to write tasks
+@param opt, day is 1, week, is 2, month is 3
+@return void
+@throws Exception
+'''
+
+def altWriteFile(fileName, schedule,day,opt):
+    '''
+    - write all of the tasks for that time period, in sorted order
+    - anti-task, both it and the recurring task instance it cancels will not be included in the list
+    - recurring task will not be displayed as a single entry.  Rather, each instance
+    '''
+    
+    if(not checkDate(day)):
+        print("Invalid Date:",str(day))
+        return
+    count = 0
+    altSchedule = []    
+
+    if opt == 1:
+        for task in schedule:
+            if Task.getStartDate(task) == day:
+                count = count + 1
+                altSchedule.append(task)
+
+
+
+    outjson = open(fileName, 'w')
+
+    # If the schedule isnt empty, save all the tasks
+    if altSchedule:
+        outjson.write('[\n')
+        for task in altSchedule:
+            outjson.write('\t{\n')
+            outjson.write("\t\t\"Name\": \"" + task.getName() + "\",\n")
+            outjson.write("\t\t\"Type\": \"" + task.getType() + "\",\n")
+            outjson.write("\t\t\"StartDate\": \"" +
+                          str(task.getStartDate()) + "\",\n")
+            outjson.write("\t\t\"StartTime\": \"" +
+                          str(task.getStartTime()) + "\",\n")
+            outjson.write("\t\t\"Duration\": \"" +
+                          str(task.getDuration()) + "\",\n")
+            outjson.write("\t\t\"EndDate\": \"" +
+                          str(task.getEndDate()) + "\",\n")
+            outjson.write("\t\t\"Frequency\": \"" +
+                          str(task.getFrequency()) + "\"")
+            outjson.write('\n\t}')
+            # Dont add trailing comma to last item
+            if task != altSchedule[-1]:
+                outjson.write(',')
+            outjson.write('\n')
+
+        outjson.write(']')
+
+    outjson.close()
+
+    if opt == 1:
+        print(count,'task(s) on', day,'added to',fileName)

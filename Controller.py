@@ -25,9 +25,10 @@ def main():
                 print('No existing schedule found, creating a new one.')
                 schedule = []
 
+        # m.altWriteFile("daySchedule.json",schedule, 20220112,2)
 
         #Main menu to allow for creating/editing/deleting/viewing tasks, exit program
-        running = True
+        running = False
         while(running):
                 #Display the options the user can make
                 printMenu()
@@ -67,7 +68,21 @@ def main():
                         v.viewSchedule(schedule)
                 #Save Changes
                 elif choice == "6":
-                        m.writeFile(saveFile, schedule)
+                        printWrite()
+                        opt = int(input())
+                        while opt != 1 or opt != 2 or opt != 3 or opt != 4 :
+                                print('Please choose a valid option.')
+                                printWrite()
+                                opt = int(input())
+
+                        f = input('Enter output file (include extension):')
+                        d = int(input('Enter start date (yyyymmdd):'))
+
+                        if opt == 4:
+                                m.writeFile(f, schedule)
+                        else:
+                            m.altWriteFile(f,schedule, d, opt)
+
                         print("Saved.")
                 #Invalid choice
                 else:
@@ -88,6 +103,14 @@ def printMenu():
         print('6. Save Schedule')
         print('0. Exit Program')
         print()
+
+def printWrite():
+    print('How would you like to write the schedule?')
+    print('\nOptions:')
+    print('1. Day')
+    print('2. Week')
+    print('3. Month')
+    print('4. Entire Scheduled')
 
 if __name__ == '__main__':
 	main()
