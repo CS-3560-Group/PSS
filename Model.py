@@ -18,7 +18,7 @@ def newTask():
     taskType = 0
     while taskType == 0:
         if (type == "Class" or type == "Study" or type == "Sleep"
-        or type == "Exercise" or type == "Work" or type == "Meal"):
+                or type == "Exercise" or type == "Work" or type == "Meal"):
             taskType = 2
         elif type == "Visit" or type == "Shopping" or type == "Appointment":
             taskType = 1
@@ -30,23 +30,31 @@ def newTask():
             type = input()
     startTime = float(input(
         'What time does this task begin? (Ex: 1:30 PM = 13.5)\n'))
-    while startTime > 24 or startTime<0 or (((startTime%1)*10)!=0 and ((startTime%1)*10)!=2.5 and ((startTime%1)*10)!=5.0 and ((startTime%1)*10)!=7.5):
-        startTime = float(input('Please enter a valid start time. It must be in 15 minute intervals. (Ex: 1:30 PM = 13.5)\n'))
-    duration = float(input('How long will this task take? format(Ex: 2 Hours and 15 Minutes = 2.25)\n'))
-    while (((duration%1)*10)!=0 and ((duration%1)*10)!=2.5 and ((duration%1)*10)!=5.0 and ((duration%1)*10)!=7.5):
-        duration = float(input('Please enter a valid duration. It must be in 15 minute intervals. (Ex: 2 Hours and 15 Minutes = 2.25)\n'))
+    while startTime > 24 or startTime < 0 or (((startTime % 1)*10) != 0 and ((startTime % 1)*10) != 2.5 and ((startTime % 1)*10) != 5.0 and ((startTime % 1)*10) != 7.5):
+        startTime = float(input(
+            'Please enter a valid start time. It must be in 15 minute intervals. (Ex: 1:30 PM = 13.5)\n'))
+    duration = float(input(
+        'How long will this task take? format(Ex: 2 Hours and 15 Minutes = 2.25)\n'))
+    while (((duration % 1)*10) != 0 and ((duration % 1)*10) != 2.5 and ((duration % 1)*10) != 5.0 and ((duration % 1)*10) != 7.5):
+        duration = float(input(
+            'Please enter a valid duration. It must be in 15 minute intervals. (Ex: 2 Hours and 15 Minutes = 2.25)\n'))
     # If its a recurring task format the question a little differently
     if (taskType == 2):
-        startDate = int(input('What day does this task start on? (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
+        startDate = int(input(
+            'What day does this task start on? (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
     else:
-        startDate = int(input('What day does this task occur on? (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
+        startDate = int(input(
+            'What day does this task occur on? (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
 
     # If its a recurring task need a date for when it stops recurring
     if (taskType == 2):
-        endDate = int(input('What day does this task end? (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
+        endDate = int(
+            input('What day does this task end? (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
         while endDate < startDate:
-            endDate = int(input('The end date must be after the start date. (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
-        freq = int(input('How often does this task recur? Daily(1) or Weekly(7)\n'))
+            endDate = int(input(
+                'The end date must be after the start date. (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
+        freq = int(
+            input('How often does this task recur? Daily(1) or Weekly(7)\n'))
         while freq != 1 and freq != 7:
             freq = int(input('Please enter 1 for Daily or 7 for Weekly\n'))
     # Otherwise just set it as -1
@@ -142,7 +150,8 @@ def editTask(badTask):
     # Duration
     prompt = input('Would you like to change the task duration? (y/n)\n')
     if(prompt == "y"):
-        duration = float(input('How long will this task take? format(Ex: 2 Hours and 15 Minutes = 2.25)\n'))
+        duration = float(input(
+            'How long will this task take? format(Ex: 2 Hours and 15 Minutes = 2.25)\n'))
         while (((duration % 1) * 10) != 0 and ((duration % 1) * 10) != 2.5 and ((duration % 1) * 10) != 5.0 and (
                 (duration % 1) * 10) != 7.5):
             duration = float(input(
@@ -153,19 +162,23 @@ def editTask(badTask):
         # Start Date
         prompt = input('Would you like to change the task start date? (y/n)\n')
         if(prompt == "y"):
-            startDate = int(input('What day does this task start on? (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
+            startDate = int(input(
+                'What day does this task start on? (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
             badTask.setStartDate(startDate)
         # End Date
         prompt = input('Would you like to change the task end date? (y/n)\n')
         if (prompt == "y"):
-            endDate = int(input('What day does this task end? (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
+            endDate = int(
+                input('What day does this task end? (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
             while endDate < startDate:
-                endDate = int(input('The end date must be after the start date. (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
+                endDate = int(input(
+                    'The end date must be after the start date. (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
             badTask.setEndDate(endDate)
         # Frequency
         prompt = input('Would you like to change the frequency (y/n)\n')
         if (prompt == "y"):
-            freq = int(input('How often does this task recur? Daily(1) or Weekly(7)\n'))
+            freq = int(
+                input('How often does this task recur? Daily(1) or Weekly(7)\n'))
             while freq != 1 and freq != 7:
                 freq = int(input('Please enter 1 for Daily or 7 for Weekly\n'))
             badTask.setFrequency(freq)
@@ -253,11 +266,10 @@ def checkType(task):
     return False
 
 
-
-
 ''' 
 @return void
 '''
+
 
 def printTypes():
     taskTypes = {
@@ -265,20 +277,19 @@ def printTypes():
         "Transient": ["Visit", "Shopping", "Appointment"],
         "Anti-Task": ["Cancellation"]
     }
-    
+
     print("Available task types:")
-    #print("Recurring")
+    # print("Recurring")
     for type in taskTypes["Recurring"]:
         print(type)
 
-    #print("Transient")
+    # print("Transient")
     for type in taskTypes["Transient"]:
         print(type)
 
-    #print("Anti-Task")
+    # print("Anti-Task")
     for type in taskTypes["Anti-Task"]:
         print(type)
-    
 
 
 '''
@@ -290,14 +301,17 @@ def printTypes():
 def checkDate(taskDate):
     month = int((int(taskDate) % 10000) / 100)
     day = (int(taskDate) % 100)
-    if(month > 0 and month < 13 and day > 0 and day <32):
+    if(month > 0 and month < 13 and day > 0 and day < 32):
         return True
     return False
 
+
 def checkTime(time):
-    if (((time%1)*10)!=0 and ((time%1)*10)!=2.5 and ((time%1)*10)!=5.0 and ((time%1)*10)!=7.5):
+    if (((time % 1)*10) != 0 and ((time % 1)*10) != 2.5 and ((time % 1)*10) != 5.0 and ((time % 1)*10) != 7.5):
         return False
     return True
+
+
 '''
 @param fileName, file name of json file
 @return schedule, list of user's tasks
@@ -317,7 +331,7 @@ def readFile(fileName):
         type = taskObj[i].get('Type')
         taskType = 0
         if (type == "Class" or type == "Study" or type == "Sleep"
-        or type == "Exercise" or type == "Work" or type == "Meal"):
+                or type == "Exercise" or type == "Work" or type == "Meal"):
             taskType = 2
         elif type == "Visit" or type == "Shopping" or type == "Appointment":
             taskType = 1
@@ -348,20 +362,20 @@ def readFile(fileName):
             print('ERROR: Invalid date for ', Task.getName(t))
             return
         # check for valid start time
-        if (not checkTime(startTime)) or startTime <0 or startTime >=24:
+        if (not checkTime(startTime)) or startTime < 0 or startTime >= 24:
             print('ERROR: Invalid start time for ', Task.getName(t))
             return
         # check for valid duration
         if (not checkTime(duration)):
             print('ERROR: Invalid duration for ', Task.getName(t))
             return
-        #check for valid end date
+        # check for valid end date
         if(endDate != -1):
             if(not checkDate(endDate)):
                 print('ERROR: Invalid end date for ', Task.getName(t))
                 return
         # check for valid frequency
-        if frequency !=0:
+        if frequency != 0:
             if(frequency != 1 and frequency != 7):
                 print('ERROR: Invalid frequency for ', Task.getName(
                     t), ' Type: ', type, ' Freq: ', frequency)
@@ -390,7 +404,8 @@ def writeFile(fileName, schedule):
             outjson.write('\t{\n')
             outjson.write("\t\t\"Name\": \"" + task.getName() + "\",\n")
             outjson.write("\t\t\"Type\": \"" + task.getType() + "\",\n")
-            outjson.write("\t\t\"StartDate\": \"" + str(task.getStartDate()) + "\",\n")
+            outjson.write("\t\t\"StartDate\": \"" +
+                          str(task.getStartDate()) + "\",\n")
             outjson.write("\t\t\"StartTime\": \"" +
                           str(task.getStartTime()) + "\",\n")
             outjson.write("\t\t\"Duration\": \"" +
@@ -419,32 +434,45 @@ def writeFile(fileName, schedule):
 @throws Exception
 '''
 
-def altWriteFile(fileName, schedule,date,opt):
+
+def altWriteFile(fileName, schedule, date, opt):
     '''
     - write all of the tasks for that time period, in sorted order
     - anti-task, both it and the recurring task instance it cancels will not be included in the list
     - recurring task will not be displayed as a single entry.  Rather, each instance
     '''
-    
+
     if(not checkDate(date)):
-        print("Invalid Date:",str(date))
+        print("Invalid Input Date:", str(date))
+        print("No tasks written to", fileName)
         return
+
+    # month = int((int(date) % 10000) / 100)
+    # day = (int(date) % 100)
+    # cal = {
+    #     1: 31,
+
+    # }
+
     count = 0
-    altSchedule = []    
+    altSchedule = []
 
-    if opt == 1: #write day
-        for task in schedule:
-            if Task.getStartDate(task) == date:
-                count = count + 1
-                altSchedule.append(task)
+    # date format yyyymmdd
 
-    if opt ==2: #write week
-        endDay = date + 7
+    if opt == 1:  # write day
+        endDay = date
 
-    if opt == 3: #write month
-        endDay == date + 100
+    if opt == 2:  # write week
+        endDay = date + 7  # check if overflow of week
 
+    if opt == 3:  # write month
+        endDay = date + 100  # check if overflow of month
 
+    for task in schedule:
+        d = Task.getStartDate(task)
+        if d >= date and d <= endDay:
+            count = count + 1
+            altSchedule.append(task)
 
     outjson = open(fileName, 'w')
 
@@ -476,4 +504,6 @@ def altWriteFile(fileName, schedule,date,opt):
     outjson.close()
 
     if opt == 1:
-        print(count,'task(s) on', day,'added to',fileName)
+        print(count, 'task(s) on', date, 'added to', fileName)
+    else:
+        print(count, 'task(s) from', date,'through',endDay, 'added to', fileName)
