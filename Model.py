@@ -333,12 +333,24 @@ def printTypes():
 @param taskDate, date in format (mm/dd/yyyy)
 @return valid, True if mm has respective dd False if not
 '''
-
-
 def checkDate(taskDate):
+    cal = {
+        1: 31,
+        2: 28,
+        3: 31,
+        4: 30,
+        5: 31,
+        6: 30,
+        7: 31,
+        8: 31,
+        9: 30,
+        10: 31,
+        11: 30,
+        12: 31
+    }
     month = int((int(taskDate) % 10000) / 100)
     day = (int(taskDate) % 100)
-    if(month > 0 and month < 13 and day > 0 and day < 32):
+    if(month > 0 and month < 13 and day > 0 and day < cal[month]):
         return True
     return False
 

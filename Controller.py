@@ -63,27 +63,26 @@ def main():
         # View Task
         elif choice == "4":
             # Prompt the user for the task to be viewed
-            print(v.viewTask(schedule))
+            v.viewTask(schedule)
 
         # View Schedule
         elif choice == "5":
-            v.viewSchedule(schedule)
+            opt = printView()
+            d = int(input('Enter start date (yyyymmdd):')) if opt != 4 else 0
+            while opt != 4 and not m.checkDate(d):
+                d = int(input('Invalid date.\nEnter start date (yyyymmdd):'))
+            v.altViewSchedule(schedule,d,opt)
         # Save Changes
         elif choice == "6":
-            printWrite()
-            opt = int(input())
-            while opt != 1 and opt != 2 and opt != 3 and opt != 4:
-                print('Please choose a valid option.')
-                printWrite()
-                opt = int(input())
-
+            opt = printWrite()
             f = input('Enter output file (include extension):')
 
             if opt == 4:
                 m.writeFile(f, schedule)
             else:
                 d = int(input('Enter start date (yyyymmdd):'))
-
+                while not m.checkDate(d):
+                    d = int(input('Invalid date.\nEnter start date (yyyymmdd):'))
                 m.altWriteFile(f, schedule, d, opt)
 
             print("Saved.")
@@ -115,6 +114,13 @@ def printWrite():
     print('3. Month')
     print('4. Entire Scheduled')
 
+    opt = int(input())
+    while opt != 1 and opt != 2 and opt != 3 and opt != 4:
+        print('Please choose a valid option.')
+        printWrite()
+        opt = int(input())
+    return opt
+
 def printWelcome():
     opt = -1
     print('Welcome to PSS')
@@ -128,6 +134,22 @@ def printWelcome():
             return 'PSS_Schedule.json'
     else:
             return input('Enter file name with extension: ')
+
+def printView():
+    print('How would you like to view the schedule?')
+    print('\nOptions:')
+    print('1. Day')
+    print('2. Week')
+    print('3. Month')
+    print('4. Entire Scheduled')
+
+
+    opt = int(input())
+    while opt != 1 and opt != 2 and opt != 3 and opt != 4:
+        print('Please choose a valid option.')
+        printWrite()
+        opt = int(input())
+    return opt
 
 
 if __name__ == '__main__':
