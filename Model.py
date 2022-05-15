@@ -124,8 +124,8 @@ def deleteTask(oldTask, schedule):
                 for innertask in wholeSchedule:
                     if innertask.getName() == oldTask.getName():
                         if innertask.getStartDate() == task.getStartDate():
-                            if int((innertask.getStartTime()*10)) == int((task.getStartTime()*10)):
-                                if int((innertask.getDuration()*10)) == int((task.getDuration()*10)):
+                            if int((innertask.getStartTime()*100)) == int((task.getStartTime()*100)):
+                                if int((innertask.getDuration()*100)) == int((task.getDuration()*100)):
                                     deleteArray.append(task)
                                     break
         for item in deleteArray:
