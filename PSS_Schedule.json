@@ -16,5 +16,14 @@
 		"Duration": "1.5",
 		"EndDate": "-1",
 		"Frequency": "0"
+	},
+	{
+		"Name": "Holiday Celebration",
+		"Type": "Cancellation",
+		"StartDate": "20220119",
+		"StartTime": "17.25",
+		"Duration": "1.25",
+		"EndDate": "-1",
+		"Frequency": "0"
 	}
 ]

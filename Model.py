@@ -94,10 +94,29 @@ def sort(schedule):
 
 
 def deleteTask(oldTask, schedule):
-    for task in schedule:
-        if task == oldTask:
-            schedule.remove(oldTask)
-            break
+    if oldTask.getTaskType() == 3:
+        oldEndDay = oldTask.getStartDate()
+        oldEndTime = oldTask.getStartTime() + oldTask.getDuration()
+        if oldEndTime > 24:
+            oldEndTime -= 24
+            oldEndDay += 1
+            if not (checkDate(oldEndDay)):
+                oldEndDay = (oldEndDay + 100 - (int(oldEndDay) % 100))
+        for task in schedule:
+            if task.getTaskType() == 1:
+                endDay = task.getStartDate()
+                endTime = task.getStartTime() + task.getDuration()
+                if endTime > 24:
+                    endTime -= 24
+                    endDay += 1
+                    if not(checkDate(endDay)):
+                        endDay = (endDay+100-(int(endDay)%100))
+                if task.getStartDate() == oldTask.getStartDate() or endDay == oldTask.getStartDate():
+                    if (oldTask.getStartTime() >= task.getStartTime() and endTime >= oldTask.getStartTime() or
+                        (oldEndTime >= task.getStartTime() and endTime >= oldEndTime)):
+                        print('Remove denied to prevent overlap due to transient task: ' + task.getName())
+                        return schedule
+    schedule.remove(oldTask)
     return schedule
 
 
@@ -157,14 +176,14 @@ def editTask(badTask):
             duration = float(input(
                 'Please enter a valid duration. It must be in 15 minute intervals. (Ex: 2 Hours and 15 Minutes = 2.25)\n'))
         badTask.setDuration(duration)
+    # Start Date
+    prompt = input('Would you like to change the task start date? (y/n)\n')
+    if (prompt == "y"):
+        startDate = int(input(
+            'What day does this task start on? (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
+        badTask.setStartDate(startDate)
     # Check if the task is recurring
     if (taskType == 2):
-        # Start Date
-        prompt = input('Would you like to change the task start date? (y/n)\n')
-        if(prompt == "y"):
-            startDate = int(input(
-                'What day does this task start on? (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
-            badTask.setStartDate(startDate)
         # End Date
         prompt = input('Would you like to change the task end date? (y/n)\n')
         if (prompt == "y"):

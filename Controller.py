@@ -59,7 +59,8 @@ def main():
             # Prompt the user for the task to be deleted
             badTask = m.findTask(schedule)
             # Remove task from schedule
-            m.deleteTask(badTask, schedule)
+            if badTask != None:
+                m.deleteTask(badTask, schedule)
         # View Task
         elif choice == "4":
             # Prompt the user for the task to be viewed
