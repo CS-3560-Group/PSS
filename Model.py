@@ -116,6 +116,20 @@ def deleteTask(oldTask, schedule):
                         (oldEndTime >= task.getStartTime() and endTime >= oldEndTime)):
                         print('Remove denied to prevent overlap due to transient task: ' + task.getName())
                         return schedule
+    elif oldTask.getTaskType() == 2:
+        wholeSchedule = recSchedule(schedule)
+        deleteArray = []
+        for task in schedule:
+            if task.getTaskType() == 3:
+                for innertask in wholeSchedule:
+                    if innertask.getName() == oldTask.getName():
+                        if innertask.getStartDate() == task.getStartDate():
+                            if int((innertask.getStartTime()*10)) == int((task.getStartTime()*10)):
+                                if int((innertask.getDuration()*10)) == int((task.getDuration()*10)):
+                                    deleteArray.append(task)
+                                    break
+        for item in deleteArray:
+            schedule.remove(item)
     schedule.remove(oldTask)
     return schedule
 

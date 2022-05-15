@@ -25,5 +25,14 @@
 		"Duration": "1.25",
 		"EndDate": "-1",
 		"Frequency": "0"
+	},
+	{
+		"Name": "Funeral",
+		"Type": "Cancellation",
+		"StartDate": "20220126",
+		"StartTime": "17.25",
+		"Duration": "1.25",
+		"EndDate": "-1",
+		"Frequency": "0"
 	}
 ]
