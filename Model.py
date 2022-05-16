@@ -10,6 +10,7 @@ from Task import Task
 
 
 def newTask():
+
     # Prompt the user to ask for details about the task
     name = input('What would you like to call your new task?\n')
     print('Please enter the task type')
@@ -38,6 +39,7 @@ def newTask():
     while (((duration % 1)*10) != 0 and ((duration % 1)*10) != 2.5 and ((duration % 1)*10) != 5.0 and ((duration % 1)*10) != 7.5):
         duration = float(input(
             'Please enter a valid duration. It must be in 15 minute intervals. (Ex: 2 Hours and 15 Minutes = 2.25)\n'))
+
     # If its a recurring task format the question a little differently
     if (taskType == 2):
         startDate = int(input(
@@ -57,6 +59,7 @@ def newTask():
             input('How often does this task recur? Daily(1) or Weekly(7)\n'))
         while freq != 1 and freq != 7:
             freq = int(input('Please enter 1 for Daily or 7 for Weekly\n'))
+
     # Otherwise just set it as -1
     else:
         endDate = -1
@@ -71,8 +74,8 @@ def newTask():
 @param schedule, Schedule to add task too
 @return schedule, unchanged if not valid
 '''
-# Used to add a created task to a schedule, ensuring no overlap and sorting
 
+# Used to add a created task to a schedule, ensuring no overlap and sorting
 
 def addTask(task, schedule):
     if checkNoOverlap(task, schedule):
@@ -81,8 +84,30 @@ def addTask(task, schedule):
         return schedule
     return schedule
 
+# Sort schedule in ascending order based on date / start time if same date
 
 def sort(schedule):
+
+    # Insertion sort
+    for i in range(1, len(schedule)):
+
+        # temporary value to save task at current index i
+        temp = schedule[i]
+        j = i - 1
+
+        # count down to beginning of schedule from index j = (i - 1)
+        # only swap if task start date is less than current
+        while (j >= 0 & temp.getStartDate() <= schedule[j].getStartDate()):
+
+            # if two entries have same start date, check start time instead
+            if(schedule[j + 1].getStartDate() == schedule[j].getStartDate()):
+
+                # if start times are in order, skip swap at end of loop
+                if(schedule[j + 1].getStartTime() >= schedule[j].getStartTime()):
+                    continue
+            schedule[j + 1] = schedule[j]
+            j -= 1
+        schedule[j + 1] = temp
     return schedule
 
 
@@ -143,11 +168,13 @@ def deleteTask(oldTask, schedule):
 
 def editTask(badTask):
     # Prompt the user for task details to be modified
+
     # Name
     prompt = input('Would you like to change the task name? (y/n)\n')
     if(prompt == "y"):
         name = input('What would you like to call your task?\n')
         badTask.setName(name)
+
     # Type
     prompt = input('Would you like to change the task type? (y/n)\n')
     taskType = 0
@@ -169,6 +196,7 @@ def editTask(badTask):
                 type = input()
         badTask.setType(type)
         badTask.setTaskType(taskType)
+
     # Start Time
     prompt = input('Would you like to change the task start time? (y/n)\n')
     if(prompt == "y"):
@@ -180,6 +208,7 @@ def editTask(badTask):
             startTime = float(
                 input('Please enter a valid start time. It must be in 15 minute intervals. (Ex: 1:30 PM = 13.5)\n'))
         badTask.setStartTime(startTime)
+
     # Duration
     prompt = input('Would you like to change the task duration? (y/n)\n')
     if(prompt == "y"):
@@ -190,14 +219,17 @@ def editTask(badTask):
             duration = float(input(
                 'Please enter a valid duration. It must be in 15 minute intervals. (Ex: 2 Hours and 15 Minutes = 2.25)\n'))
         badTask.setDuration(duration)
+
     # Start Date
     prompt = input('Would you like to change the task start date? (y/n)\n')
     if (prompt == "y"):
         startDate = int(input(
             'What day does this task start on? (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
         badTask.setStartDate(startDate)
+
     # Check if the task is recurring
     if (taskType == 2):
+
         # End Date
         prompt = input('Would you like to change the task end date? (y/n)\n')
         if (prompt == "y"):
@@ -207,6 +239,7 @@ def editTask(badTask):
                 endDate = int(input(
                     'The end date must be after the start date. (yyyymmdd)(Ex: May 4, 2022 = 20220604)\n'))
             badTask.setEndDate(endDate)
+
         # Frequency
         prompt = input('Would you like to change the frequency (y/n)\n')
         if (prompt == "y"):
@@ -223,10 +256,13 @@ def editTask(badTask):
 
 
 def findTask(schedule):
+
     # List of tasks with matching names
     nameMatch = []
+
     # Request the user for the name of the task
     name = input("What is the name of the task?\n")
+
     # Loop through the entire schedule, looking for tasks with same name
     for task in schedule:
         if(task.getName() == name):
@@ -260,8 +296,10 @@ def checkNoOverlap(task, schedule):
 
         # for transient tasks
         if(t.getTaskType() == 1):
+
             # only check t if it is on the same day as task
             if(start == t.getStartDate()):
+
                 # check if task start time is between time and time+duration of comparative task
                 end = t.getStartTime() + t.getDuration()
                 if(time >= t.getStartTime() and time < end):
@@ -269,12 +307,15 @@ def checkNoOverlap(task, schedule):
 
         # for recurring tasks
         elif(t.getTaskType() == 2):
-            end = task.getEndDate()
+
             # check each day in range from start date to end date
+            end = task.getEndDate()
             while(start < end):  # make sure start stays under end date
+
                 # for daily recurring tasks, check each day in i
                 if(t.getFrequency() == 1):
                     start += 1
+
                 # for weekly recurring tasks, check each week
                 elif(t.getFrequency() == 7):
                     start += 7
@@ -285,8 +326,10 @@ def checkNoOverlap(task, schedule):
 
         # for anti tasks (only if task is also anti task)
         elif(t.getTaskType() == 3 & task.getTaskType() == 3):
+
             # only check t if it is on the same day as task
             if(start == t.getStartDate()):
+
                 # check if task start time is between time and time+duration of comparative task
                 end = t.getStartTime() + t.getDuration()
                 if(time >= t.getStartTime() & time < end):
@@ -300,19 +343,16 @@ def checkNoOverlap(task, schedule):
 @return unique, True if unique name False if not unique name
 '''
 
-
 def checkUniqueName(task, schedule):
     for t in schedule:
         if(Task.getName(t) == Task.getName(task)):
             return False
     return True
 
-
 '''
 @param task, task to find type 
 @return unique, True if valid type  False if not valid type
 '''
-
 
 def checkType(task):
     taskTypes = {
@@ -335,11 +375,9 @@ def checkType(task):
 
     return False
 
-
 ''' 
 @return void
 '''
-
 
 def printTypes():
     taskTypes = {
@@ -349,6 +387,7 @@ def printTypes():
     }
 
     print("Available task types:")
+
     # print("Recurring")
     for type in taskTypes["Recurring"]:
         print(type)
@@ -361,11 +400,11 @@ def printTypes():
     for type in taskTypes["Anti-Task"]:
         print(type)
 
-
 '''
 @param taskDate, date in format (mm/dd/yyyy)
 @return valid, True if mm has respective dd False if not
 '''
+
 def checkDate(taskDate):
     cal = {
         1: 31,
@@ -387,12 +426,10 @@ def checkDate(taskDate):
         return True
     return False
 
-
 def checkTime(time):
     if (((time % 1)*10) != 0 and ((time % 1)*10) != 2.5 and ((time % 1)*10) != 5.0 and ((time % 1)*10) != 7.5):
         return False
     return True
-
 
 '''
 @param fileName, file name of json file
@@ -400,17 +437,19 @@ def checkTime(time):
 @throws Exception
 '''
 
-
 def readFile(fileName):
     sch = []
+
     # reads file
     jsonfile = open(fileName, 'r')
     jsondata = jsonfile.read()
+
     # print data
     taskObj = json.loads(jsondata)  # changes data from string into dictionary
     for i in range(len(taskObj)):
         name = taskObj[i].get('Name')
         type = taskObj[i].get('Type')
+
         # taskType = 0
         if (type == "Class" or type == "Study" or type == "Sleep"
                 or type == "Exercise" or type == "Work" or type == "Meal"):
@@ -426,36 +465,44 @@ def readFile(fileName):
         frequency = int(taskObj[i].get('Frequency'))
         t = Task(name, type, taskType, startTime, duration, startDate,
                  endDate, frequency)  # make new task
+
         # check for conflicting time
         if(not checkNoOverlap(t, sch)):
             print("ERROR: Overlap in schedule")
             return
+
         # check for unique task name
         if(not checkUniqueName(t, sch)):
             print("ERROR: No unique task names")
             return
+
         # check for valid type
         if(not checkType(t)):
             print('ERROR: Invalid type for ', Task.getName(t))
             printTypes()
             return
+
         # check for valid start date
         if(not checkDate(startDate)):
             print('ERROR: Invalid date for ', Task.getName(t))
             return
+
         # check for valid start time
         if (not checkTime(startTime)) or startTime < 0 or startTime >= 24:
             print('ERROR: Invalid start time for ', Task.getName(t))
             return
+
         # check for valid duration
         if (not checkTime(duration)):
             print('ERROR: Invalid duration for ', Task.getName(t))
             return
+
         # check for valid end date
         if(endDate != -1):
             if(not checkDate(endDate)):
                 print('ERROR: Invalid end date for ', Task.getName(t))
                 return
+
         # check for valid frequency
         if frequency != 0:
             if(frequency != 1 and frequency != 7):
@@ -467,7 +514,6 @@ def readFile(fileName):
     jsonfile.close()
     return sch
 
-
 '''
 @param fileName, file name of json file
 @param schedule, list of user's tasks
@@ -475,11 +521,11 @@ def readFile(fileName):
 @throws Exception
 '''
 
-
 def writeFile(fileName, schedule):
     outjson = open(fileName, 'w')
 
     outjson.write('[\n')
+
     # If the schedule isnt empty, save all the tasks
     if schedule:
         for task in schedule:
@@ -497,6 +543,7 @@ def writeFile(fileName, schedule):
             outjson.write("\t\t\"Frequency\": \"" +
                           str(task.getFrequency()) + "\"")
             outjson.write('\n\t}')
+
             # Dont add trailing comma to last item
             if task != schedule[-1]:
                 outjson.write(',')
@@ -506,7 +553,6 @@ def writeFile(fileName, schedule):
 
     outjson.close()
 
-
 '''
 @param fileName, file name of json file
 @param schedule, list of user's tasks
@@ -515,7 +561,6 @@ def writeFile(fileName, schedule):
 @return void
 @throws Exception
 '''
-
 
 def altWriteFile(fileName, schedule, date, opt):
     '''
@@ -554,8 +599,8 @@ def altWriteFile(fileName, schedule, date, opt):
 
     if opt == 2:  # write week
         endDay = date + 7  # check if overflow of week
-        # if the day is past month's last day, increment month, set day as the difference
 
+        # if the day is past month's last day, increment month, set day as the difference
         day = (int(endDay) % 100)
         year = int((int(date) % 100000000) / 10000)
         month = int((int(endDay) % 10000) / 100)
@@ -615,6 +660,7 @@ def altWriteFile(fileName, schedule, date, opt):
             outjson.write("\t\t\"Frequency\": \"" +
                           str(task.getFrequency()) + "\"")
             outjson.write('\n\t}')
+
             # Dont add trailing comma to last item
             if task != altSchedule[-1]:
                 outjson.write(',')
@@ -630,12 +676,10 @@ def altWriteFile(fileName, schedule, date, opt):
         print(count, 'task(s) from', date, 'through',
               endDay, 'added to', fileName)
 
-
 '''
 @param schedule, list of user's tasks
 @return rec, recurring tasks appear as transient tasks repeating
 '''
-
 
 def recSchedule(schedule):
     rec = []
@@ -656,6 +700,7 @@ def recSchedule(schedule):
     }
 
     for task in schedule:
+
         # print('task #', Task.getTaskType(task))
         if Task.getTaskType(task) == 2:
             freq = Task.getFrequency(task)  # either 1 or 7
