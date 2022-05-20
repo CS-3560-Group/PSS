@@ -60,9 +60,19 @@ def newTask():
         while freq != 1 and freq != 7:
             freq = int(input('Please enter 1 for Daily or 7 for Weekly\n'))
 
-    # Otherwise just set it as -1
+    # Otherwise calculate the end Date to make sure it doesnt go past midnight into the next day
     else:
-        endDate = -1
+        durationDays = int((duration + startTime)/24)
+        remainder = (duration + startTime)%24
+        if(durationDays) > 0:
+            #Calc end date
+            endDate = startDate + durationDays
+            #Make sure end date is valid
+            if(not checkDate(endDate)):
+                endDate = (endDate + 100 - (int(endDate) % 100) + 1)
+        #The duration doesnt carry the task to the next day so end date and start date a re the same
+        else:
+            endDate = startDate
         freq = 0
 
     # Plug in the details and return the created task
@@ -422,7 +432,7 @@ def checkDate(taskDate):
     }
     month = int((int(taskDate) % 10000) / 100)
     day = (int(taskDate) % 100)
-    if(month > 0 and month < 13 and day > 0 and day < cal[month]):
+    if(month > 0 and month < 13 and day > 0 and day <= cal[month]):
         return True
     return False
 

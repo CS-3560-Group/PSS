@@ -94,6 +94,8 @@ def altViewSchedule(schedule, date, opt):
 
         for task in r:
             d = Task.getStartDate(task)
+            #vv Unused code vv
+            #if(task.getStartDate() < task.getEndDate() and task.getEndDate() < ):
             if d >= date and d <= endDay:
                 print(task)
 

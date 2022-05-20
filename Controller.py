@@ -39,8 +39,8 @@ def main():
         # Exit
         if choice == "0":
             running = False
-            f = input('Enter output file (include extension):')
-            m.writeFile(f, schedule)
+            #f = input('Enter output file (include extension .json):')
+            #m.writeFile(f, schedule)
             break
         # Create Task
         elif choice == "1":
@@ -76,7 +76,7 @@ def main():
         # Save Changes
         elif choice == "6":
             opt = printWrite()
-            f = input('Enter output file (include extension):')
+            f = input('Enter output file (include extension .json):')
 
             if opt == 4:
                 m.writeFile(f, schedule)
@@ -116,7 +116,7 @@ def printWrite():
     print('4. Entire Scheduled')
 
     opt = int(input())
-    while opt != 1 and opt != 2 and opt != 3 and opt != 4:
+    while opt not in (1, 2, 3, 4):
         print('Please choose a valid option.')
         printWrite()
         opt = int(input())
@@ -146,7 +146,7 @@ def printView():
 
 
     opt = int(input())
-    while opt != 1 and opt != 2 and opt != 3 and opt != 4:
+    while opt not in (1, 2, 3, 4):
         print('Please choose a valid option.')
         printWrite()
         opt = int(input())

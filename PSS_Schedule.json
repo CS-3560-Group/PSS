@@ -1,5 +1,14 @@
 [
 	{
+		"Name": "Late Night Studying",
+		"Type": "Visit",
+		"StartDate": "20220131",
+		"StartTime": "22.0",
+		"Duration": "3.25",
+		"EndDate": "20220201",
+		"Frequency": "0"
+	},
+	{
 		"Name": "CS 3560",
 		"Type": "Class",
 		"StartDate": "20220112",
