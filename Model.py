@@ -468,11 +468,18 @@ def readFile(fileName):
             taskType = 1
         elif type == "Cancellation":
             taskType = 3
-        startTime = float(taskObj[i].get('StartTime'))
-        duration = float(taskObj[i].get('Duration'))
-        startDate = int(taskObj[i].get('StartDate'))
-        endDate = int(taskObj[i].get('EndDate'))
-        frequency = int(taskObj[i].get('Frequency'))
+        if taskType == 2:
+            startTime = float(taskObj[i].get('StartTime'))
+            duration = float(taskObj[i].get('Duration'))
+            startDate = int(taskObj[i].get('StartDate'))
+            endDate = int(taskObj[i].get('EndDate'))
+            frequency = int(taskObj[i].get('Frequency'))
+        elif taskType == 1 or taskType == 3:
+            startTime = float(taskObj[i].get('StartTime'))
+            duration = float(taskObj[i].get('Duration'))
+            startDate = int(taskObj[i].get('Date'))
+            endDate = -1
+            frequency = 0
         t = Task(name, type, taskType, startTime, duration, startDate,
                  endDate, frequency)  # make new task
 
@@ -539,21 +546,32 @@ def writeFile(fileName, schedule):
     # If the schedule isnt empty, save all the tasks
     if schedule:
         for task in schedule:
-            outjson.write('\t{\n')
-            outjson.write("\t\t\"Name\": \"" + task.getName() + "\",\n")
-            outjson.write("\t\t\"Type\": \"" + task.getType() + "\",\n")
-            outjson.write("\t\t\"StartDate\": \"" +
-                          str(task.getStartDate()) + "\",\n")
-            outjson.write("\t\t\"StartTime\": \"" +
-                          str(task.getStartTime()) + "\",\n")
-            outjson.write("\t\t\"Duration\": \"" +
-                          str(task.getDuration()) + "\",\n")
-            outjson.write("\t\t\"EndDate\": \"" +
-                          str(task.getEndDate()) + "\",\n")
-            outjson.write("\t\t\"Frequency\": \"" +
-                          str(task.getFrequency()) + "\"")
-            outjson.write('\n\t}')
-
+            if task.getTaskType() == 2:
+                outjson.write('\t{\n')
+                outjson.write("\t\t\"Name\": \"" + task.getName() + "\",\n")
+                outjson.write("\t\t\"Type\": \"" + task.getType() + "\",\n")
+                outjson.write("\t\t\"StartDate\": \"" +
+                              str(task.getStartDate()) + "\",\n")
+                outjson.write("\t\t\"StartTime\": \"" +
+                              str(task.getStartTime()) + "\",\n")
+                outjson.write("\t\t\"Duration\": \"" +
+                              str(task.getDuration()) + "\",\n")
+                outjson.write("\t\t\"EndDate\": \"" +
+                              str(task.getEndDate()) + "\",\n")
+                outjson.write("\t\t\"Frequency\": \"" +
+                              str(task.getFrequency()) + "\"")
+                outjson.write('\n\t}')
+            elif task.getTaskType() == 1 or task.getTaskType() == 3:
+                outjson.write('\t{\n')
+                outjson.write("\t\t\"Name\": \"" + task.getName() + "\",\n")
+                outjson.write("\t\t\"Type\": \"" + task.getType() + "\",\n")
+                outjson.write("\t\t\"Date\": \"" +
+                              str(task.getStartDate()) + "\",\n")
+                outjson.write("\t\t\"StartTime\": \"" +
+                              str(task.getStartTime()) + "\",\n")
+                outjson.write("\t\t\"Duration\": \"" +
+                              str(task.getDuration()) + "\",\n")
+                outjson.write('\n\t}')
             # Dont add trailing comma to last item
             if task != schedule[-1]:
                 outjson.write(',')
