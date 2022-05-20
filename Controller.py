@@ -14,13 +14,13 @@ def main():
 #     saveFile = "PSS_Schedule.json"
     # Variable to enable or disable debugging
     debug = False
-    
+    schedule = []
     saveFile = printWelcome()
     print('Checking for existing schedule')
 
     # Try and load an existing schedule if there is one
     try:
-        schedule = m.readFile(saveFile)
+        m.readFile(saveFile, schedule)
         print('Schedule found:')
         v.viewSchedule(schedule)
     except Exception:
@@ -87,6 +87,14 @@ def main():
                 m.altWriteFile(f, schedule, d, opt)
 
             print("Saved.")
+        elif choice == "7":
+            printWelcome()
+            try:
+                schedule = m.readFile(saveFile)
+                print('Schedule found:')
+                v.viewSchedule(schedule, schedule)
+            except Exception:
+                print('Either this json file is invalid or does not exist')
         # Invalid choice
         else:
             print('Please choose a valid option.')
@@ -103,6 +111,7 @@ def printMenu():
     print('4. View Task')
     print('5. View Schedule')
     print('6. Save Schedule')
+    print('7. Read Another Schedule')
     print('0. Exit Program')
     print()
 

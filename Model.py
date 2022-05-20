@@ -447,8 +447,7 @@ def checkTime(time):
 @throws Exception
 '''
 
-def readFile(fileName):
-    sch = []
+def readFile(fileName,sch):
 
     # reads file
     jsonfile = open(fileName, 'r')
@@ -527,9 +526,7 @@ def readFile(fileName):
                     t), ' Type: ', type, ' Freq: ', frequency)
                 return
         sch.append(t)  # add to schedule
-
     jsonfile.close()
-    return sch
 
 '''
 @param fileName, file name of json file
