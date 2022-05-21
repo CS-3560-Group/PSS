@@ -2,19 +2,15 @@
 	{
 		"Name": "PLS FINAL",
 		"Type": "Appointment",
-		"StartDate": "20220516",
+		"Date": "20220516",
 		"StartTime": "8.0",
-		"Duration": "3.0",
-		"EndDate": "-1",
-		"Frequency": "0"
+		"Duration": "3.0"
 	},
 	{
 		"Name": "Gerry Garden",
 		"Type": "Visit",
-		"StartDate": "20220516",
+		"Date": "20220516",
 		"StartTime": "12.0",
-		"Duration": "5.0",
-		"EndDate": "-1",
-		"Frequency": "0"
+		"Duration": "5.0"
 	}
 ]
