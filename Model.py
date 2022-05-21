@@ -313,8 +313,6 @@ def checkNoOverlap(task, schedule):
     if task.getTaskType() == 2:
         sch.append(task)
     wholeschedule = recSchedule2(sch)
-    for item in wholeschedule:
-        print(item.getName())
     if task.getTaskType() == 1:
         removeTask = []
         finalArray = []
@@ -353,9 +351,6 @@ def checkNoOverlap(task, schedule):
                     newend = newstart + int(t.getDuration() * 100)
                     oldtime = int(item.getStartTime() * 100)
                     oldend = oldtime + int(item.getDuration() * 100)
-                    print("old: " + item.getName() + str(item.getStartDate()) + " " + str(oldtime) + " " + str(
-                        oldend))
-                    print("new: " + t.getName() + str(t.getStartDate()) + " " + str(newstart) + " " + str(newend))
                     if (oldtime >= newstart and newend >= oldtime) or (oldend >= newstart and newend >= oldend):
                         return False
                     else:
