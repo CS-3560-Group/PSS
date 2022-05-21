@@ -307,7 +307,14 @@ def checkNoOverlap(task, schedule):
     time = int(task.getStartTime() *100)
     dura = int(task.getDuration()*100)
     end = time + dura
-    wholeschedule = recSchedule2(schedule)
+    sch = []
+    for item in schedule:
+        sch.append(item)
+    if task.getTaskType() == 2:
+        sch.append(task)
+    wholeschedule = recSchedule2(sch)
+    for item in wholeschedule:
+        print(item.getName())
     if task.getTaskType() == 1:
         removeTask = []
         finalArray = []
@@ -335,14 +342,24 @@ def checkNoOverlap(task, schedule):
                     continue
         return True
     elif task.getTaskType() == 2:
+        taskArray = []
         for t in wholeschedule:
-            if t.getName() != task.getName() and t.getStartDate() == start:
-                newstart = int(t.getStartTime()*100)
-                newend = int(t.getStartTime()*100) + int(t.getDuration()*100)
-                if (time >= newstart and newend >= time) or (end >= newstart and newend >= end):
-                    return False
-                else:
-                    continue
+            if t.getName() == task.getName() and t not in taskArray:
+                taskArray.append(t)
+        for item in taskArray:
+            for t in wholeschedule:
+                if t.getName() != item.getName() and t.getStartDate() == item.getStartDate():
+                    newstart = int(t.getStartTime() * 100)
+                    newend = newstart + int(t.getDuration() * 100)
+                    oldtime = int(item.getStartTime() * 100)
+                    oldend = oldtime + int(item.getDuration() * 100)
+                    print("old: " + item.getName() + str(item.getStartDate()) + " " + str(oldtime) + " " + str(
+                        oldend))
+                    print("new: " + t.getName() + str(t.getStartDate()) + " " + str(newstart) + " " + str(newend))
+                    if (oldtime >= newstart and newend >= oldtime) or (oldend >= newstart and newend >= oldend):
+                        return False
+                    else:
+                        continue
         return True
     elif task.getTaskType() == 3:
         for t in wholeschedule:
