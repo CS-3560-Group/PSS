@@ -534,6 +534,7 @@ def readFile(fileName,sch):
         sch.append(t)  # add to schedule
     jsonfile.close()
     return sch
+    # return sort(sch)
 
 '''
 @param fileName, file name of json file

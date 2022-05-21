@@ -90,9 +90,11 @@ def main():
 
             print("Saved.")
         elif choice == "7":
-            newFile = printWelcome()
+            # newFile = printWelcome()
+            newFile = input('Enter file name with extension: ')
             try:
-                schedule = m.readFile(newFile, schedule)
+                tmpSch = []
+                schedule = m.readFile(newFile, tmpSch)
                 print('Schedule found:')
                 v.viewSchedule(schedule)
             except Exception:
