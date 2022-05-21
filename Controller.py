@@ -21,7 +21,7 @@ def main():
     # Try and load an existing schedule if there is one
     try:
         sch = m.readFile(saveFile, schedule)
-        if sch == None:
+        if len(sch)==0:
             print('No existing schedule found, creating a new one.')
         else:
             print('Schedule found:')
@@ -90,12 +90,13 @@ def main():
 
             print("Saved.")
         elif choice == "7":
-            printWelcome()
+            newFile = printWelcome()
             try:
-                schedule = m.readFile(saveFile)
+                schedule = m.readFile(newFile, schedule)
                 print('Schedule found:')
-                v.viewSchedule(schedule, schedule)
+                v.viewSchedule(schedule)
             except Exception:
+                traceback.print_exc()
                 print('Either this json file is invalid or does not exist')
         # Invalid choice
         else:

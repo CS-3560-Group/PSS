@@ -89,11 +89,8 @@ def newTask():
 
 def addTask(task, schedule):
     if checkNoOverlap(task, schedule):
-        print("Valid Task")
         schedule.append(task)
-        print("Wow")
-        schedule = sort(schedule)
-        print("Done")
+        # schedule = sort(schedule)
         return schedule
     else:
         print('Invalid Task')
@@ -105,14 +102,15 @@ def sort(schedule):
 
     # Insertion sort
     for i in range(1, len(schedule)):
-
+        for item in schedule:
+            print(item)
         # temporary value to save task at current index i
         temp = schedule[i]
         j = i - 1
 
         # count down to beginning of schedule from index j = (i - 1)
         # only swap if task start date is less than current
-        while (j >= 0 & temp.getStartDate() <= schedule[j].getStartDate()):
+        while (j >= 0 and temp.getStartDate() <= schedule[j].getStartDate()):
 
             # if two entries have same start date, check start time instead
             if(schedule[j + 1].getStartDate() == schedule[j].getStartDate()):
@@ -120,7 +118,8 @@ def sort(schedule):
                 # if start times are in order, skip swap at end of loop
                 if(schedule[j + 1].getStartTime() >= schedule[j].getStartTime()):
                     continue
-            schedule[j + 1] = schedule[j]
+                else:
+                    schedule[j + 1] = schedule[j]
             j -= 1
         schedule[j + 1] = temp
     return schedule
@@ -311,6 +310,7 @@ def checkNoOverlap(task, schedule):
     wholeschedule = recSchedule2(schedule)
     if task.getTaskType() == 1:
         removeTask = []
+        finalArray = []
         for t1 in wholeschedule:
             if t1.getTaskType() == 3:
                 removeTask.append(t1)
@@ -320,7 +320,11 @@ def checkNoOverlap(task, schedule):
                                 int(t2.getDuration() * 100) == int(t1.getDuration() * 100)):
                             removeTask.append(t2)
         for item in removeTask:
-            wholeschedule.remove(item)
+            if item not in finalArray:
+                finalArray.append(item)
+        for items in finalArray:
+            wholeschedule.remove(items)
+
         for t in wholeschedule:
             if t.getStartDate() == start:
                 newstart = int(t.getStartTime()*100)
@@ -451,7 +455,6 @@ def checkTime(time):
 '''
 
 def readFile(fileName,sch):
-
     # reads file
     jsonfile = open(fileName, 'r')
     jsondata = jsonfile.read()
@@ -488,47 +491,46 @@ def readFile(fileName,sch):
         # check for conflicting time
         if(not checkNoOverlap(t, sch)):
             print("ERROR: Overlap in schedule")
-            return
+            return sch
 
         # check for unique task name
         if(not checkUniqueName(t, sch)):
             print("ERROR: No unique task names")
-            return
+            return sch
 
         # check for valid type
         if(not checkType(t)):
             print('ERROR: Invalid type for ', Task.getName(t))
             printTypes()
-            return
+            return sch
 
         # check for valid start date
         if(not checkDate(startDate)):
             print('ERROR: Invalid date for ', Task.getName(t))
-            return
+            return sch
 
         # check for valid start time
         if (not checkTime(startTime)) or startTime < 0 or startTime >= 24:
             print('ERROR: Invalid start time for ', Task.getName(t))
-            return
+            return sch
 
         # check for valid duration
         if (not checkTime(duration)):
             print('ERROR: Invalid duration for ', Task.getName(t))
-            return
+            return sch
 
         # check for valid end date
         if(endDate != -1):
             if(not checkDate(endDate)):
                 print('ERROR: Invalid end date for ', Task.getName(t))
-                return
-
+                return sch
 
         # check for valid frequency
         if frequency != 0:
             if(frequency != 1 and frequency != 7):
                 print('ERROR: Invalid frequency for ', Task.getName(
                     t), ' Type: ', type, ' Freq: ', frequency)
-                return
+                return sch
         sch.append(t)  # add to schedule
     jsonfile.close()
     return sch
@@ -805,14 +807,10 @@ def recSchedule2(schedule):
             typ = Task.getType(task)
             startTime = Task.getStartTime(task)
             dur = Task.getDuration(task)
-
-            #change recursive task to transient
             taskType = 2
-            endDay = -1
-            f = 0
 
             while currDate <= endDate:
-                tempTask = Task(name, typ, taskType,startTime,dur,currDate,endDay, f)
+                tempTask = Task(name, typ, taskType,startTime,dur,currDate,endDate, freq)
                 rec.append(tempTask)
 
                 currDate = currDate + freq
