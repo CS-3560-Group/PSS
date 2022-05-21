@@ -125,7 +125,7 @@ def printWrite():
     print('1. Day')
     print('2. Week')
     print('3. Month')
-    print('4. Entire Scheduled')
+    print('4. Entire Schedule')
 
     opt = int(input())
     while opt not in (1, 2, 3, 4):

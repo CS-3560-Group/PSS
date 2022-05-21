@@ -90,7 +90,7 @@ def newTask():
 def addTask(task, schedule):
     if checkNoOverlap(task, schedule):
         schedule.append(task)
-        # schedule = sort(schedule)
+        schedule = sort(schedule)
         return schedule
     else:
         print('Invalid Task')
@@ -99,29 +99,7 @@ def addTask(task, schedule):
 # Sort schedule in ascending order based on date / start time if same date
 
 def sort(schedule):
-
-    # Insertion sort
-    for i in range(1, len(schedule)):
-        for item in schedule:
-            print(item)
-        # temporary value to save task at current index i
-        temp = schedule[i]
-        j = i - 1
-
-        # count down to beginning of schedule from index j = (i - 1)
-        # only swap if task start date is less than current
-        while (j >= 0 and temp.getStartDate() <= schedule[j].getStartDate()):
-
-            # if two entries have same start date, check start time instead
-            if(schedule[j + 1].getStartDate() == schedule[j].getStartDate()):
-
-                # if start times are in order, skip swap at end of loop
-                if(schedule[j + 1].getStartTime() >= schedule[j].getStartTime()):
-                    continue
-                else:
-                    schedule[j + 1] = schedule[j]
-            j -= 1
-        schedule[j + 1] = temp
+    schedule.sort(key=lambda task : (task.getStartDate(), task.getStartTime()))
     return schedule
 
 
@@ -300,9 +278,6 @@ def checkNoOverlap(task, schedule):
 
     # If there is another task at that date, check if there are tasks
     # In the same time frame
-    # for t in schedule:
-    #     if(Task.getStartDate(t) == Task.getStartDate(task) and Task.getStartTime(t) == Task.getStartTime(task)):
-    #         return False
     start = task.getStartDate()
     time = int(task.getStartTime() *100)
     dura = int(task.getDuration()*100)
@@ -545,8 +520,7 @@ def readFile(fileName,sch):
                 return sch
         sch.append(t)  # add to schedule
     jsonfile.close()
-    return sch
-    # return sort(sch)
+    return sort(sch)
 
 '''
 @param fileName, file name of json file
