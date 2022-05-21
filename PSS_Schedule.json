@@ -1,12 +1,12 @@
 [
 	{
 		"Name": "Late Night Studying",
-		"Type": "Visit",
+		"Type": "Study",
 		"StartDate": "20220131",
 		"StartTime": "22.0",
 		"Duration": "3.25",
 		"EndDate": "20220201",
-		"Frequency": "0"
+		"Frequency": "7"
 	},
 	{
 		"Name": "CS 3560",
@@ -20,28 +20,22 @@
 	{
 		"Name": "Haircut",
 		"Type": "Appointment",
-		"StartDate": "20220520",
+		"Date": "20220520",
 		"StartTime": "14.0",
-		"Duration": "1.5",
-		"EndDate": "-1",
-		"Frequency": "0"
+		"Duration": "1.5"
 	},
 	{
 		"Name": "Holiday Celebration",
 		"Type": "Cancellation",
-		"StartDate": "20220119",
+		"Date": "20220119",
 		"StartTime": "17.25",
-		"Duration": "1.25",
-		"EndDate": "-1",
-		"Frequency": "0"
+		"Duration": "1.25"
 	},
 	{
 		"Name": "Funeral",
 		"Type": "Cancellation",
-		"StartDate": "20220126",
+		"Date": "20220126",
 		"StartTime": "17.25",
-		"Duration": "1.25",
-		"EndDate": "-1",
-		"Frequency": "0"
+		"Duration": "1.25"
 	}
 ]

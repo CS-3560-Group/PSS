@@ -20,13 +20,15 @@ def main():
 
     # Try and load an existing schedule if there is one
     try:
-        m.readFile(saveFile, schedule)
-        print('Schedule found:')
+        sch = m.readFile(saveFile, schedule)
+        if sch == None:
+            print('No existing schedule found, creating a new one.')
+        else:
+            print('Schedule found:')
         v.viewSchedule(schedule)
     except Exception:
         traceback.print_exc()
         print('No existing schedule found, creating a new one.')
-        schedule = []
 
     # Main menu to allow for creating/editing/deleting/viewing tasks, exit program
     running = True
@@ -139,7 +141,6 @@ def printWelcome():
         print('1. Default schedule (PSS_Schedule.json)')
         print('2. Custom schedule')
         opt = int(input())
-        print()
     if opt == 1:
             return 'PSS_Schedule.json'
     else:
@@ -151,7 +152,7 @@ def printView():
     print('1. Day')
     print('2. Week')
     print('3. Month')
-    print('4. Entire Scheduled')
+    print('4. Entire Schedule')
 
 
     opt = int(input())

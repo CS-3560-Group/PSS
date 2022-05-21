@@ -31,7 +31,7 @@ def newTask():
             type = input()
     startTime = float(input(
         'What time does this task begin? (Ex: 1:30 PM = 13.5)\n'))
-    while startTime > 24 or startTime < 0 or (((startTime % 1)*10) != 0 and ((startTime % 1)*10) != 2.5 and ((startTime % 1)*10) != 5.0 and ((startTime % 1)*10) != 7.5):
+    while startTime > 24.0 or startTime < 0.0 or (((startTime % 1)*10) != 0 and ((startTime % 1)*10) != 2.5 and ((startTime % 1)*10) != 5.0 and ((startTime % 1)*10) != 7.5):
         startTime = float(input(
             'Please enter a valid start time. It must be in 15 minute intervals. (Ex: 1:30 PM = 13.5)\n'))
     duration = float(input(
@@ -89,9 +89,14 @@ def newTask():
 
 def addTask(task, schedule):
     if checkNoOverlap(task, schedule):
+        print("Valid Task")
         schedule.append(task)
+        print("Wow")
         schedule = sort(schedule)
+        print("Done")
         return schedule
+    else:
+        print('Invalid Task')
     return schedule
 
 # Sort schedule in ascending order based on date / start time if same date
@@ -142,7 +147,6 @@ def deleteTask(oldTask, schedule):
                 endDay = task.getStartDate()
                 endTime = task.getStartTime() + task.getDuration()
                 if endTime > 24:
-                    endTime -= 24
                     endDay += 1
                     if not(checkDate(endDay)):
                         endDay = (endDay+100-(int(endDay)%100))
@@ -152,7 +156,7 @@ def deleteTask(oldTask, schedule):
                         print('Remove denied to prevent overlap due to transient task: ' + task.getName())
                         return schedule
     elif oldTask.getTaskType() == 2:
-        wholeSchedule = recSchedule(schedule)
+        wholeSchedule = recSchedule2(schedule)
         deleteArray = []
         for task in schedule:
             if task.getTaskType() == 3:
@@ -301,49 +305,48 @@ def checkNoOverlap(task, schedule):
     #     if(Task.getStartDate(t) == Task.getStartDate(task) and Task.getStartTime(t) == Task.getStartTime(task)):
     #         return False
     start = task.getStartDate()
-    time = task.getStartTime()
-    for t in schedule:
-
-        # for transient tasks
-        if(t.getTaskType() == 1):
-
-            # only check t if it is on the same day as task
-            if(start == t.getStartDate()):
-
-                # check if task start time is between time and time+duration of comparative task
-                end = t.getStartTime() + t.getDuration()
-                if(time >= t.getStartTime() and time < end):
+    time = int(task.getStartTime() *100)
+    dura = int(task.getDuration()*100)
+    end = time + dura
+    wholeschedule = recSchedule2(schedule)
+    if task.getTaskType() == 1:
+        removeTask = []
+        for t1 in wholeschedule:
+            if t1.getTaskType() == 3:
+                removeTask.append(t1)
+                for t2 in wholeschedule:
+                    if t2.getTaskType() == 2 and t1.getStartDate() == t2.getStartDate():
+                        if (int(t2.getStartTime() * 100) == int(t1.getStartTime() * 100) and
+                                int(t2.getDuration() * 100) == int(t1.getDuration() * 100)):
+                            removeTask.append(t2)
+        for item in removeTask:
+            wholeschedule.remove(item)
+        for t in wholeschedule:
+            if t.getStartDate() == start:
+                newstart = int(t.getStartTime()*100)
+                newend = int(t.getStartTime()*100) + int(t.getDuration()*100)
+                if (newstart >= time and end >= newstart) or (newend >= time and end >= newend):
                     return False
-
-        # for recurring tasks
-        elif(t.getTaskType() == 2):
-
-            # check each day in range from start date to end date
-            end = task.getEndDate()
-            while(start < end):  # make sure start stays under end date
-
-                # for daily recurring tasks, check each day in i
-                if(t.getFrequency() == 1):
-                    start += 1
-
-                # for weekly recurring tasks, check each week
-                elif(t.getFrequency() == 7):
-                    start += 7
-                if(start == t.getStartDate()):
-                    end = t.getStartTime() + t.getDuration()
-                    if(time >= t.getStartTime() & time < end):
-                        return False
-
-        # for anti tasks (only if task is also anti task)
-        elif(t.getTaskType() == 3 & task.getTaskType() == 3):
-
-            # only check t if it is on the same day as task
-            if(start == t.getStartDate()):
-
-                # check if task start time is between time and time+duration of comparative task
-                end = t.getStartTime() + t.getDuration()
-                if(time >= t.getStartTime() & time < end):
+                else:
+                    continue
+        return True
+    elif task.getTaskType() == 2:
+        for t in wholeschedule:
+            if t.getName() != task.getName() and t.getStartDate() == start:
+                newstart = int(t.getStartTime()*100)
+                newend = int(t.getStartTime()*100) + int(t.getDuration()*100)
+                if (time >= newstart and newend >= time) or (end >= newstart and newend >= end):
                     return False
+                else:
+                    continue
+        return True
+    elif task.getTaskType() == 3:
+        for t in wholeschedule:
+            # Check for recurring task on the same day
+            if start == t.getStartDate() and t.getTaskType() == 2:
+                if time == int(t.getStartTime()*100) and dura == int(t.getDuration()*100):
+                    return True
+        return False
     return True
 
 
@@ -519,6 +522,7 @@ def readFile(fileName,sch):
                 print('ERROR: Invalid end date for ', Task.getName(t))
                 return
 
+
         # check for valid frequency
         if frequency != 0:
             if(frequency != 1 and frequency != 7):
@@ -527,6 +531,7 @@ def readFile(fileName,sch):
                 return
         sch.append(t)  # add to schedule
     jsonfile.close()
+    return sch
 
 '''
 @param fileName, file name of json file
@@ -740,6 +745,69 @@ def recSchedule(schedule):
 
             #change recursive task to transient
             taskType = 1
+            endDay = -1
+            f = 0
+
+            while currDate <= endDate:
+                tempTask = Task(name, typ, taskType,startTime,dur,currDate,endDay, f)
+                rec.append(tempTask)
+
+                currDate = currDate + freq
+
+                # check if overflow of week/month/year
+                day = (int(currDate) % 100)
+                year = int((int(currDate) % 100000000) / 10000)
+                month = int((int(currDate) % 10000) / 100)
+
+                # if the day is past month's last day, increment month, set day as the difference
+                if day > cal[month]:
+                    diff = day - cal[month]
+
+                    if month != 12:
+                        currDate = (year*10000) + (month+1)*100 + diff
+                    # if december change to january
+                    else:
+                        currDate = (year+1)*10000 + 100 + diff
+
+        else:
+            rec.append(task)
+
+    return rec
+
+def recSchedule2(schedule):
+    rec = []
+
+    cal = {
+        1: 31,
+        2: 28,
+        3: 31,
+        4: 30,
+        5: 31,
+        6: 30,
+        7: 31,
+        8: 31,
+        9: 30,
+        10: 31,
+        11: 30,
+        12: 31
+    }
+
+    for task in schedule:
+
+        # print('task #', Task.getTaskType(task))
+        if Task.getTaskType(task) == 2:
+            freq = Task.getFrequency(task)  # either 1 or 7
+            currDate = Task.getStartDate(task)
+            # print(type(currDate))
+            endDate = Task.getEndDate(task)
+
+            name = Task.getName(task)
+            typ = Task.getType(task)
+            startTime = Task.getStartTime(task)
+            dur = Task.getDuration(task)
+
+            #change recursive task to transient
+            taskType = 2
             endDay = -1
             f = 0
 
